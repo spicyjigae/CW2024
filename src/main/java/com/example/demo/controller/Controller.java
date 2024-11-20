@@ -45,6 +45,7 @@ public class Controller implements Observer {
 			goToLevel((String) arg1);
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText(e.getClass().toString());
 			alert.show();
