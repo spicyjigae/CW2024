@@ -2,16 +2,15 @@ package com.example.demo.controller;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Observable;
-import java.util.Observer;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import com.example.demo.LevelParent;
+import com.example.demo.LevelChangeListener;
 
-public class Controller implements Observer {
+public class Controller implements LevelChangeListener {
 
 	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
 	private final Stage stage;
@@ -29,10 +28,13 @@ public class Controller implements Observer {
 
 	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
 			Class<?> myClass = Class.forName(className);
 			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
 			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
-			myLevel.addObserver(this);
+
+			myLevel.addListener(this);
+
 			Scene scene = myLevel.initializeScene();
 			stage.setScene(scene);
 			myLevel.startGame();
@@ -40,12 +42,11 @@ public class Controller implements Observer {
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void onLevelChange(String nextLevel) {
 		try {
-			goToLevel((String) arg1);
+			goToLevel(nextLevel);
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText(e.getClass().toString());
 			alert.show();
