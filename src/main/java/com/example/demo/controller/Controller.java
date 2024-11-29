@@ -7,12 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.LevelParent;
-import com.example.demo.LevelChangeListener;
+import com.example.demo.game.levels.LevelParent;
+import com.example.demo.game.listeners.LevelChangeListener;
 
 public class Controller implements LevelChangeListener {
 
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
+	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.game.levels.LevelOne";
 	private final Stage stage;
 
 	public Controller(Stage stage) {

@@ -1,4 +1,7 @@
-package com.example.demo;
+package com.example.demo.game.actors;
+
+import com.example.demo.game.projectiles.BossProjectile;
+import com.example.demo.game.ui.ShieldImage;
 
 import java.util.*;
 

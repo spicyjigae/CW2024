@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.game.levels;
+
+import com.example.demo.game.actors.Boss;
 
 public class LevelTwo extends LevelParent {
 

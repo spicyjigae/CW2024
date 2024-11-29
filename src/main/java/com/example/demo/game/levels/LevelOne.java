@@ -1,9 +1,12 @@
-package com.example.demo;
+package com.example.demo.game.levels;
+
+import com.example.demo.game.actors.ActiveActorDestructible;
+import com.example.demo.game.actors.EnemyPlane;
 
 public class LevelOne extends LevelParent {
 	
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
-	private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
+	private static final String NEXT_LEVEL = "com.example.demo.game.levels.LevelTwo";
 	private static final int TOTAL_ENEMIES = 5;
 	private static final int KILLS_TO_ADVANCE = 5;
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
