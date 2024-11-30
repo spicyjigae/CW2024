@@ -1,6 +1,6 @@
-package com.example.demo.game.actors;
+package com.example.demo.actors;
 
-import com.example.demo.game.projectiles.EnemyProjectile;
+import com.example.demo.projectiles.EnemyProjectile;
 
 public class EnemyPlane extends FighterPlane {
 

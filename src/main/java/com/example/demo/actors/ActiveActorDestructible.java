@@ -1,6 +1,6 @@
-package com.example.demo.game.actors;
+package com.example.demo.actors;
 
-import com.example.demo.game.Destructible;
+import com.example.demo.interfaces.Destructible;
 
 public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
 

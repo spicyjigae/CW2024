@@ -1,12 +1,12 @@
-package com.example.demo.game.levels;
+package com.example.demo.levels;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.example.demo.game.listeners.LevelChangeListener;
-import com.example.demo.game.actors.ActiveActorDestructible;
-import com.example.demo.game.actors.FighterPlane;
-import com.example.demo.game.actors.UserPlane;
+import com.example.demo.interfaces.LevelChangeListener;
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.FighterPlane;
+import com.example.demo.actors.UserPlane;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -44,9 +44,9 @@ public abstract class LevelParent {
 		listeners.remove(levelChangeListener);
 	}
 
-	private void notifyListeners(String newData) {
+	private void notifyListeners(String newLevel) {
 		for (LevelChangeListener listener : listeners) {
-			listener.onLevelChange(newData);
+			listener.onLevelChange(newLevel);
 		}
 	}
 
@@ -126,15 +126,15 @@ public abstract class LevelParent {
 		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP) user.moveUp();
-				if (kc == KeyCode.DOWN) user.moveDown();
+				if (kc == KeyCode.W) user.moveUp();
+				if (kc == KeyCode.S) user.moveDown();
 				if (kc == KeyCode.SPACE) fireProjectile();
 			}
 		});
 		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
+				if (kc == KeyCode.W || kc == KeyCode.S) user.stop();
 			}
 		});
 		root.getChildren().add(background);
