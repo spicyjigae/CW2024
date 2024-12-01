@@ -32,11 +32,7 @@ public class UserPlane extends FighterPlane {
 			}
 		}
 	}
-	
-	@Override
-	public void updateActor() {
-		updatePosition();
-	}
+
 	
 	@Override
 	public ActiveActorDestructible fireProjectile() {
