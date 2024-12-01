@@ -7,6 +7,7 @@ import com.example.demo.interfaces.LevelChangeListener;
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.FighterPlane;
 import com.example.demo.actors.UserPlane;
+import com.example.demo.controls.UserControls;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -28,6 +29,7 @@ public abstract class LevelParent {
 	private final UserPlane user;
 	private final Scene scene;
 	private final ImageView background;
+	private final UserControls userControls;
 
 	private final List<ActiveActorDestructible> friendlyUnits;
 	private final List<ActiveActorDestructible> enemyUnits;
@@ -35,6 +37,30 @@ public abstract class LevelParent {
 	private final List<ActiveActorDestructible> enemyProjectiles;
 
 	private final List<LevelChangeListener> listeners = new ArrayList<>();
+
+	private int currentNumberOfEnemies;
+	private LevelView levelView;
+
+	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+		this.root = new Group();
+		this.scene = new Scene(root, screenWidth, screenHeight);
+		this.timeline = new Timeline();
+		this.user = new UserPlane(playerInitialHealth);
+		this.friendlyUnits = new ArrayList<>();
+		this.enemyUnits = new ArrayList<>();
+		this.userProjectiles = new ArrayList<>();
+		this.enemyProjectiles = new ArrayList<>();
+		this.userControls = new UserControls(user, root, userProjectiles);
+
+		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
+		this.screenHeight = screenHeight;
+		this.screenWidth = screenWidth;
+		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
+		this.levelView = instantiateLevelView();
+		this.currentNumberOfEnemies = 0;
+		initializeTimeline();
+		friendlyUnits.add(user);
+	}
 
 	public void addListener(LevelChangeListener listener) {
 		listeners.add(listener);
@@ -53,29 +79,6 @@ public abstract class LevelParent {
 	public void goToNextLevel(String LevelName) {
 		user.destroy();
 		notifyListeners(LevelName);
-	}
-
-	private int currentNumberOfEnemies;
-	private LevelView levelView;
-
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
-		this.root = new Group();
-		this.scene = new Scene(root, screenWidth, screenHeight);
-		this.timeline = new Timeline();
-		this.user = new UserPlane(playerInitialHealth);
-		this.friendlyUnits = new ArrayList<>();
-		this.enemyUnits = new ArrayList<>();
-		this.userProjectiles = new ArrayList<>();
-		this.enemyProjectiles = new ArrayList<>();
-
-		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
-		this.screenHeight = screenHeight;
-		this.screenWidth = screenWidth;
-		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
-		this.levelView = instantiateLevelView();
-		this.currentNumberOfEnemies = 0;
-		initializeTimeline();
-		friendlyUnits.add(user);
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -123,27 +126,17 @@ public abstract class LevelParent {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
 		background.setFitWidth(screenWidth);
-		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.W) user.moveUp();
-				if (kc == KeyCode.S) user.moveDown();
-				if (kc == KeyCode.SPACE) fireProjectile();
-			}
-		});
-		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.W || kc == KeyCode.S) user.stop();
-			}
-		});
+		background.setOnKeyPressed(e -> handleKeyPressed(e));
+		background.setOnKeyReleased(e -> handleKeyReleased(e));
 		root.getChildren().add(background);
 	}
 
-	private void fireProjectile() {
-		ActiveActorDestructible projectile = user.fireProjectile();
-		root.getChildren().add(projectile);
-		userProjectiles.add(projectile);
+	private void handleKeyPressed(KeyEvent e)  {
+		userControls.handleKeyPressed(e);
+	}
+
+	private void handleKeyReleased(KeyEvent e)  {
+		userControls.handleKeyReleased(e);
 	}
 
 	private void generateEnemyFire() {

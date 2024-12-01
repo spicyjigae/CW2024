@@ -21,8 +21,9 @@ public class LevelOne extends LevelParent {
 		if (userIsDestroyed()) {
 			loseGame();
 		}
-		else if (userHasReachedKillTarget())
+		else if (userHasReachedKillTarget()) {
 			goToNextLevel(NEXT_LEVEL);
+		}
 	}
 
 	@Override
