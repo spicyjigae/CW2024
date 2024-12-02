@@ -5,6 +5,7 @@ import javafx.scene.image.*;
 public abstract class ActiveActor extends ImageView {
 	
 	private static final String IMAGE_LOCATION = "/com/example/demo/images/";
+	protected int HORIZONTAL_VELOCITY = 0;
 
 	public ActiveActor(String imageName, int imageHeight, double initialXPos, double initialYPos) {
 		//this.setImage(new Image(IMAGE_LOCATION + imageName));
@@ -15,7 +16,9 @@ public abstract class ActiveActor extends ImageView {
 		this.setPreserveRatio(true);
 	}
 
-	public abstract void updatePosition();
+	public void updatePosition() {
+		moveHorizontally(HORIZONTAL_VELOCITY);
+	}
 
 	protected void moveHorizontally(double horizontalMove) {
 		this.setTranslateX(getTranslateX() + horizontalMove);
