@@ -1,11 +1,12 @@
-package com.example.demo.actors;
+package com.example.demo.actors.planes;
 
-import com.example.demo.projectiles.BossProjectile;
+import com.example.demo.actors.templates.ActiveActorDestructible;
+import com.example.demo.actors.projectiles.BossProjectile;
 import com.example.demo.ui.ShieldImage;
 
 import java.util.*;
 
-public class Boss extends FighterPlane {
+public class BossPlane extends Plane {
 
 	private static final String IMAGE_NAME = "bossplane.png";
 	private static final double INITIAL_X_POSITION = 800.0;
@@ -29,7 +30,7 @@ public class Boss extends FighterPlane {
 	private int indexOfCurrentMove;
 	private int framesWithShieldActivated;
 
-	public Boss() {
+	public BossPlane() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
 		movePattern = new ArrayList<>();
 		consecutiveMovesInSameDirection = 0;

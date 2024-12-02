@@ -1,10 +1,12 @@
-package com.example.demo.actors;
+package com.example.demo.actors.planes;
 
-public abstract class FighterPlane extends ActiveActorDestructible {
+import com.example.demo.actors.templates.ActiveActorDestructible;
+
+public abstract class Plane extends ActiveActorDestructible {
 
 	private int health;
 
-	public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
+	public Plane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
 		super(imageName, imageHeight, initialXPos, initialYPos);
 		this.health = health;
 	}

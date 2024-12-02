@@ -4,9 +4,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.example.demo.interfaces.LevelChangeListener;
-import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.FighterPlane;
-import com.example.demo.actors.UserPlane;
+import com.example.demo.actors.templates.ActiveActorDestructible;
+import com.example.demo.actors.planes.Plane;
+import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.controls.UserControls;
 import javafx.animation.*;
 import javafx.scene.Group;
@@ -139,7 +139,7 @@ public abstract class LevelParent {
 	}
 
 	private void generateEnemyFire() {
-		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
+		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((Plane) enemy).fireProjectile()));
 	}
 
 	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {

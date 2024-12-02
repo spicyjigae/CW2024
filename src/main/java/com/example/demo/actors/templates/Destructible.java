@@ -1,4 +1,4 @@
-package com.example.demo.interfaces;
+package com.example.demo.actors.templates;
 
 public interface Destructible {
 	void takeDamage();

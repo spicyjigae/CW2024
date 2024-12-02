@@ -1,8 +1,9 @@
-package com.example.demo.actors;
+package com.example.demo.actors.planes;
 
-import com.example.demo.projectiles.UserProjectile;
+import com.example.demo.actors.templates.ActiveActorDestructible;
+import com.example.demo.actors.projectiles.UserProjectile;
 
-public class UserPlane extends FighterPlane {
+public class UserPlane extends Plane {
 
 	private static final String IMAGE_NAME = "userplane.png";
 	private static final double Y_UPPER_BOUND = 0;
@@ -18,7 +19,7 @@ public class UserPlane extends FighterPlane {
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
-		velocityMultiplier = 0;
+		this.velocityMultiplier = 0;
 	}
 	
 	@Override
@@ -44,15 +45,15 @@ public class UserPlane extends FighterPlane {
 	}
 
 	public void moveUp() {
-		velocityMultiplier = -1;
+		this.velocityMultiplier = -1;
 	}
 
 	public void moveDown() {
-		velocityMultiplier = 1;
+		this.velocityMultiplier = 1;
 	}
 
 	public void stop() {
-		velocityMultiplier = 0;
+		this.velocityMultiplier = 0;
 	}
 
 	public int getNumberOfKills() {
@@ -60,7 +61,7 @@ public class UserPlane extends FighterPlane {
 	}
 
 	public void incrementKillCount() {
-		numberOfKills++;
+		this.numberOfKills++;
 	}
 
 }

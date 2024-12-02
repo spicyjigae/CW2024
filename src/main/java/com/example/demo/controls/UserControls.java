@@ -1,10 +1,10 @@
 package com.example.demo.controls;
 
-import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.templates.ActiveActorDestructible;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Group;
-import com.example.demo.actors.UserPlane;
+import com.example.demo.actors.planes.UserPlane;
 
 import java.util.List;
 
