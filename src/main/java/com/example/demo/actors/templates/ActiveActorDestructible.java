@@ -9,8 +9,10 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
 		this.isDestroyed = false;
 	}
 
-	@Override
-	public abstract void takeDamage();
+    @Override
+    public void takeDamage() {
+        this.destroy();
+    }
 
 	@Override
 	public void destroy() {

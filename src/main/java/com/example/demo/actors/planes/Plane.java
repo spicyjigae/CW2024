@@ -12,12 +12,12 @@ public abstract class Plane extends ActiveActorDestructible {
 	}
 
 	public abstract ActiveActorDestructible fireProjectile();
-	
+
 	@Override
 	public void takeDamage() {
-		health--;
+		this.health--;
 		if (healthAtZero()) {
-			this.destroy();
+			super.takeDamage();
 		}
 	}
 

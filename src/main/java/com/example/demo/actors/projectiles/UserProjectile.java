@@ -2,7 +2,7 @@ package com.example.demo.actors.projectiles;
 
 public class UserProjectile extends Projectile {
 
-	private static final String IMAGE_NAME = "userfire.png";
+	private static final String IMAGE_NAME = "user_bullet.png";
 	private static final int IMAGE_HEIGHT = 25;
 
 	public UserProjectile(double initialXPos, double initialYPos) {

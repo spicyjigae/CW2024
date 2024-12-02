@@ -8,8 +8,4 @@ public abstract class Projectile extends ActiveActorDestructible {
 		super(imageName, imageHeight, initialXPos, initialYPos);
 	}
 
-	@Override
-	public void takeDamage() {
-		this.destroy();
-	}
 }
