@@ -20,6 +20,10 @@ public abstract class ActiveActor extends ImageView {
 		moveHorizontally(HORIZONTAL_VELOCITY);
 	}
 
+	public void updateActor() {
+		updatePosition();
+	}
+
 	protected void moveHorizontally(double horizontalMove) {
 		this.setTranslateX(getTranslateX() + horizontalMove);
 	}
