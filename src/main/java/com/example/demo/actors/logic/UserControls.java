@@ -28,6 +28,15 @@ public class UserControls {
         if (kc == KeyCode.S) {
             user.moveDown();
         }
+
+        if (kc == KeyCode.A) {
+            user.moveLeft();
+        }
+
+        if (kc == KeyCode.D) {
+            user.moveRight();
+        }
+
         if (kc == KeyCode.SPACE) {
             fireProjectile();
         }
@@ -36,7 +45,11 @@ public class UserControls {
     public void handleKeyReleased(KeyEvent e) {
         KeyCode kc = e.getCode();
         if (kc == KeyCode.W || kc == KeyCode.S) {
-            user.stop();
+            user.stopVertical();
+        }
+
+        if (kc == KeyCode.A || kc == KeyCode.D) {
+            user.stopHorizontal();
         }
     }
 

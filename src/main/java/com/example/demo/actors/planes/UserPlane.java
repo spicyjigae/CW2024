@@ -8,29 +8,46 @@ public class UserPlane extends Plane {
 	private static final String IMAGE_NAME = "user_plane.png";
 	private static final double Y_UPPER_BOUND = 0;
 	private static final double Y_LOWER_BOUND = 650;
+	private static final double X_RIGHT_BOUND = 0;
+	private static final double X_LEFT_BOUND = 400;
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
 	private static final int IMAGE_HEIGHT = 45;
-	private static final int VERTICAL_VELOCITY = 8;
+	private static final int VELOCITY = 8;
 	private static final int PROJECTILE_X_POSITION_OFFSET = 150;
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 15;
-	private int velocityMultiplier;
+	private int verticalVelocityMultiplier;
+	private int horizontalVelocityMultiplier;
 	private int numberOfKills;
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
-		this.velocityMultiplier = 0;
+		this.verticalVelocityMultiplier = 0;
+		this.horizontalVelocityMultiplier = 0;
 	}
 	
 	@Override
 	public void updatePosition() {
 		if (isMoving()) {
 			double initialTranslateY = getTranslateY();
-			this.moveVertically(VERTICAL_VELOCITY * velocityMultiplier);
-			double newPosition = getLayoutY() + getTranslateY();
-			if (newPosition < Y_UPPER_BOUND || newPosition > Y_LOWER_BOUND) {
+
+			this.moveVertically(VELOCITY * verticalVelocityMultiplier);
+
+			double newVerticalPosition = getLayoutY() + getTranslateY();
+			if (newVerticalPosition < Y_UPPER_BOUND || newVerticalPosition > Y_LOWER_BOUND) {
 				this.setTranslateY(initialTranslateY);
 			}
+
+			double initialTranslateX = getTranslateX();
+
+			this.moveHorizontally(VELOCITY * horizontalVelocityMultiplier);
+
+			double newHorizontalPosition = getLayoutX() + getTranslateX();
+			if (newHorizontalPosition < X_RIGHT_BOUND || newHorizontalPosition > X_LEFT_BOUND) {
+				this.setTranslateX(initialTranslateX);
+			}
+
+
 		}
 	}
 
@@ -41,19 +58,31 @@ public class UserPlane extends Plane {
 	}
 
 	private boolean isMoving() {
-		return velocityMultiplier != 0;
+		return verticalVelocityMultiplier != 0 || horizontalVelocityMultiplier != 0;
 	}
 
 	public void moveUp() {
-		this.velocityMultiplier = -1;
+		this.verticalVelocityMultiplier = -1;
 	}
 
 	public void moveDown() {
-		this.velocityMultiplier = 1;
+		this.verticalVelocityMultiplier = 1;
 	}
 
-	public void stop() {
-		this.velocityMultiplier = 0;
+	public void moveLeft() {
+		this.horizontalVelocityMultiplier = -1;
+	}
+
+	public void moveRight() {
+		this.horizontalVelocityMultiplier = 1;
+	}
+
+	public void stopVertical() {
+		this.verticalVelocityMultiplier = 0;
+	}
+
+	public void stopHorizontal() {
+		this.horizontalVelocityMultiplier = 0;
 	}
 
 	public int getNumberOfKills() {
