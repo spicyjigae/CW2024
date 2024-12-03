@@ -1,10 +1,9 @@
 package com.example.demo.actors.planes;
 
+import com.example.demo.actors.logic.BossMovementPattern;
 import com.example.demo.actors.templates.ActiveActorDestructible;
 import com.example.demo.actors.projectiles.BossProjectile;
 import com.example.demo.ui.ShieldImage;
-
-import java.util.*;
 
 public class BossPlane extends Plane {
 
@@ -18,33 +17,28 @@ public class BossPlane extends Plane {
 	private static final int VERTICAL_VELOCITY = 8;
 	private static final int HEALTH = 10; // easier testing
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
-	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
 	private static final int Y_POSITION_UPPER_BOUND = 0;
 	private static final int Y_POSITION_LOWER_BOUND = 600;
 	private static final int MAX_FRAMES_WITH_SHIELD = 500;
 	private static ShieldImage shieldImage;
-	private final List<Integer> movePattern;
+	private final BossMovementPattern bossMovementPattern;
 	private boolean isShielded;
-	private int consecutiveMovesInSameDirection;
-	private int indexOfCurrentMove;
 	private int framesWithShieldActivated;
 
 	public BossPlane() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
-		movePattern = new ArrayList<>();
-		consecutiveMovesInSameDirection = 0;
-		indexOfCurrentMove = 0;
 		framesWithShieldActivated = 0;
 		isShielded = false;
 		shieldImage = new ShieldImage(1100, 50);
-		initializeMovePattern();
+		this.bossMovementPattern = new BossMovementPattern(MAX_FRAMES_WITH_SAME_MOVE, VERTICAL_VELOCITY, MOVE_FREQUENCY_PER_CYCLE);
+
 	}
 
 	@Override
 	public void updatePosition() {
 		double initialTranslateY = getTranslateY();
-		moveVertically(getNextMove());
+		moveVertically(bossMovementPattern.getNextMove());
 		double currentPosition = getLayoutY() + getTranslateY();
 		if (currentPosition < Y_POSITION_UPPER_BOUND || currentPosition > Y_POSITION_LOWER_BOUND) {
 			setTranslateY(initialTranslateY);
@@ -69,15 +63,6 @@ public class BossPlane extends Plane {
 		}
 	}
 
-	private void initializeMovePattern() {
-		for (int i = 0; i < MOVE_FREQUENCY_PER_CYCLE; i++) {
-			movePattern.add(VERTICAL_VELOCITY);
-			movePattern.add(-VERTICAL_VELOCITY);
-			movePattern.add(ZERO);
-		}
-		Collections.shuffle(movePattern);
-	}
-
 	private void updateShield() {
 		if (isShielded) {
 			framesWithShieldActivated++;
@@ -90,20 +75,6 @@ public class BossPlane extends Plane {
 			deactivateShield();
 			shieldImage.hideShield();
 		}
-	}
-
-	private int getNextMove() {
-		int currentMove = movePattern.get(indexOfCurrentMove);
-		consecutiveMovesInSameDirection++;
-		if (consecutiveMovesInSameDirection == MAX_FRAMES_WITH_SAME_MOVE) {
-			Collections.shuffle(movePattern);
-			consecutiveMovesInSameDirection = 0;
-			indexOfCurrentMove++;
-		}
-		if (indexOfCurrentMove == movePattern.size()) {
-			indexOfCurrentMove = 0;
-		}
-		return currentMove;
 	}
 
 	private boolean bossFiresInCurrentFrame() {

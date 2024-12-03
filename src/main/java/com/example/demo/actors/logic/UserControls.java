@@ -1,4 +1,4 @@
-package com.example.demo.controls;
+package com.example.demo.actors.logic;
 
 import com.example.demo.actors.templates.ActiveActorDestructible;
 import javafx.scene.input.KeyCode;

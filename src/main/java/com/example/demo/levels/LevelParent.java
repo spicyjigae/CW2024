@@ -7,7 +7,7 @@ import com.example.demo.interfaces.LevelChangeListener;
 import com.example.demo.actors.templates.ActiveActorDestructible;
 import com.example.demo.actors.planes.Plane;
 import com.example.demo.actors.planes.UserPlane;
-import com.example.demo.controls.UserControls;
+import com.example.demo.actors.logic.UserControls;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
