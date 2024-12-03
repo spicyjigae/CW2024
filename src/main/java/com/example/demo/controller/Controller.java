@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.levels.LevelParent;
+import com.example.demo.levels.logic.LevelParent;
 import com.example.demo.interfaces.LevelChangeListener;
 
 public class Controller implements LevelChangeListener {

@@ -2,6 +2,7 @@ package com.example.demo.levels;
 
 import com.example.demo.actors.templates.ActiveActorDestructible;
 import com.example.demo.actors.planes.EnemyPlane;
+import com.example.demo.levels.logic.LevelParent;
 
 public class LevelOne extends LevelParent {
 	
@@ -27,18 +28,13 @@ public class LevelOne extends LevelParent {
 	}
 
 	@Override
-	protected void initializeFriendlyUnits() {
-		getRoot().getChildren().add(getUser());
-	}
-
-	@Override
 	protected void spawnEnemyUnits() {
-		int currentNumberOfEnemies = getCurrentNumberOfEnemies();
+		int currentNumberOfEnemies = actorManagement.getNumberOfEnemies();
 		for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
 				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
 				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
-				addEnemyUnit(newEnemy);
+				actorManagement.addEnemyUnits(newEnemy);
 			}
 		}
 	}

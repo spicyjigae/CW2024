@@ -1,13 +1,11 @@
-package com.example.demo.levels;
+package com.example.demo.levels.logic;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.example.demo.interfaces.LevelChangeListener;
-import com.example.demo.actors.templates.ActiveActorDestructible;
-import com.example.demo.actors.planes.Plane;
 import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.actors.logic.UserControls;
+import com.example.demo.levels.LevelView;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -29,11 +27,8 @@ public abstract class LevelParent {
 	private final Scene scene;
 	private final ImageView background;
 	private final UserControls userControls;
-
-	private final List<ActiveActorDestructible> friendlyUnits;
-	private final List<ActiveActorDestructible> enemyUnits;
-	private final List<ActiveActorDestructible> userProjectiles;
-	private final List<ActiveActorDestructible> enemyProjectiles;
+	protected final ActorManagement actorManagement;
+	private final CollisionHandling collisionHandling;
 
 	private final List<LevelChangeListener> listeners = new ArrayList<>();
 
@@ -45,11 +40,9 @@ public abstract class LevelParent {
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
 		this.user = new UserPlane(playerInitialHealth);
-		this.friendlyUnits = new ArrayList<>();
-		this.enemyUnits = new ArrayList<>();
-		this.userProjectiles = new ArrayList<>();
-		this.enemyProjectiles = new ArrayList<>();
-		this.userControls = new UserControls(user, root, userProjectiles);
+		this.actorManagement = new ActorManagement(root);
+		this.userControls = new UserControls(user, root, actorManagement);
+		this.collisionHandling = new CollisionHandling(actorManagement, user);
 
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -58,7 +51,6 @@ public abstract class LevelParent {
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
-		friendlyUnits.add(user);
 	}
 
 	public void addListener(LevelChangeListener listener) {
@@ -80,8 +72,6 @@ public abstract class LevelParent {
 		notifyListeners(LevelName);
 	}
 
-	protected abstract void initializeFriendlyUnits();
-
 	protected abstract void checkIfGameOver();
 
 	protected abstract void spawnEnemyUnits();
@@ -90,7 +80,7 @@ public abstract class LevelParent {
 
 	public Scene initializeScene() {
 		initializeBackground();
-		initializeFriendlyUnits();
+		actorManagement.addFriendlyUnits(user);
 		levelView.showHeartDisplay();
 		return scene;
 	}
@@ -102,14 +92,14 @@ public abstract class LevelParent {
 
 	private void updateScene() {
 		spawnEnemyUnits();
-		updateActors();
-		generateEnemyFire();
+		actorManagement.updateActors();
+		actorManagement.generateEnemyFire();
 		updateNumberOfEnemies();
-		handleEnemyPenetration();
-		handleUserProjectileCollisions();
-		handleEnemyProjectileCollisions();
-		handlePlaneCollisions();
-		removeAllDestroyedActors();
+		collisionHandling.handleEnemyPenetration(screenWidth);
+		collisionHandling.handleUserProjectileCollisions();
+		collisionHandling.handleEnemyProjectileCollisions();
+		collisionHandling.handlePlaneCollisions();
+		actorManagement.removeAllDestroyedActors();
 		updateKillCount();
 		updateLevelView();
 		checkIfGameOver();
@@ -138,83 +128,14 @@ public abstract class LevelParent {
 		userControls.handleKeyReleased(e);
 	}
 
-	private void generateEnemyFire() {
-		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((Plane) enemy).fireProjectile()));
-	}
-
-	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {
-		if (projectile != null) {
-			root.getChildren().add(projectile);
-			enemyProjectiles.add(projectile);
-		}
-	}
-
-	private void updateActors() {
-		friendlyUnits.forEach(plane -> plane.updateActor());
-		enemyUnits.forEach(enemy -> enemy.updateActor());
-		userProjectiles.forEach(projectile -> projectile.updateActor());
-		enemyProjectiles.forEach(projectile -> projectile.updateActor());
-	}
-
-	private void removeAllDestroyedActors() {
-		removeDestroyedActors(friendlyUnits);
-		removeDestroyedActors(enemyUnits);
-		removeDestroyedActors(userProjectiles);
-		removeDestroyedActors(enemyProjectiles);
-	}
-
-	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
-		List<ActiveActorDestructible> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
-				.collect(Collectors.toList());
-		root.getChildren().removeAll(destroyedActors);
-		actors.removeAll(destroyedActors);
-	}
-
-	private void handlePlaneCollisions() {
-		handleCollisions(friendlyUnits, enemyUnits);
-	}
-
-	private void handleUserProjectileCollisions() {
-		handleCollisions(userProjectiles, enemyUnits);
-	}
-
-	private void handleEnemyProjectileCollisions() {
-		handleCollisions(enemyProjectiles, friendlyUnits);
-	}
-
-	private void handleCollisions(List<ActiveActorDestructible> actors1,
-			List<ActiveActorDestructible> actors2) {
-		for (ActiveActorDestructible actor : actors2) {
-			for (ActiveActorDestructible otherActor : actors1) {
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-					actor.takeDamage();
-					otherActor.takeDamage();
-				}
-			}
-		}
-	}
-
-	private void handleEnemyPenetration() {
-		for (ActiveActorDestructible enemy : enemyUnits) {
-			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeDamage();
-				enemy.destroy();
-			}
-		}
-	}
-
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
 	}
 
 	private void updateKillCount() {
-		for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
+		for (int i = 0; i < currentNumberOfEnemies - actorManagement.getNumberOfEnemies(); i++) {
 			user.incrementKillCount();
 		}
-	}
-
-	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-		return Math.abs(enemy.getTranslateX()) > screenWidth;
 	}
 
 	protected void winGame() {
@@ -235,15 +156,6 @@ public abstract class LevelParent {
 		return root;
 	}
 
-	protected int getCurrentNumberOfEnemies() {
-		return enemyUnits.size();
-	}
-
-	protected void addEnemyUnit(ActiveActorDestructible enemy) {
-		enemyUnits.add(enemy);
-		root.getChildren().add(enemy);
-	}
-
 	protected double getEnemyMaximumYPosition() {
 		return enemyMaximumYPosition;
 	}
@@ -257,7 +169,7 @@ public abstract class LevelParent {
 	}
 
 	private void updateNumberOfEnemies() {
-		currentNumberOfEnemies = enemyUnits.size();
+		currentNumberOfEnemies = actorManagement.getNumberOfEnemies();
 	}
 
 }

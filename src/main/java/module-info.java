@@ -10,5 +10,6 @@ module com.example.demo {
     opens com.example.demo.ui to javafx.fxml;
     opens com.example.demo.actors.planes to javafx.fxml;
     opens com.example.demo.actors.templates to javafx.fxml;
+    opens com.example.demo.levels.logic to javafx.fxml;
 
 }

@@ -1,6 +1,7 @@
 package com.example.demo.levels;
 
 import com.example.demo.actors.planes.BossPlane;
+import com.example.demo.levels.logic.LevelParent;
 
 public class LevelTwo extends LevelParent {
 
@@ -15,11 +16,6 @@ public class LevelTwo extends LevelParent {
 	}
 
 	@Override
-	protected void initializeFriendlyUnits() {
-		getRoot().getChildren().add(getUser());
-	}
-
-	@Override
 	protected void checkIfGameOver() {
 		if (userIsDestroyed()) {
 			loseGame();
@@ -31,8 +27,8 @@ public class LevelTwo extends LevelParent {
 
 	@Override
 	protected void spawnEnemyUnits() {
-		if (getCurrentNumberOfEnemies() == 0) {
-			addEnemyUnit(boss);
+		if (actorManagement.getNumberOfEnemies() == 0) {
+			actorManagement.addEnemyUnits(boss);
 			getRoot().getChildren().add(boss.getShieldImage());
 		}
 	}

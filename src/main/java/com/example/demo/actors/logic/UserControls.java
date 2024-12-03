@@ -1,23 +1,22 @@
 package com.example.demo.actors.logic;
 
 import com.example.demo.actors.templates.ActiveActorDestructible;
+import com.example.demo.levels.logic.ActorManagement;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Group;
 import com.example.demo.actors.planes.UserPlane;
 
-import java.util.List;
-
 public class UserControls {
 
     private final UserPlane user;
     private final Group root;
-    private final List<ActiveActorDestructible> userProjectiles;
+    private final ActorManagement actorManagement;
 
-    public UserControls(UserPlane user, Group root, List<ActiveActorDestructible> userProjectiles) {
+    public UserControls(UserPlane user, Group root, ActorManagement actorManagement) {
         this.user = user;
         this.root = root;
-        this.userProjectiles = userProjectiles;
+        this.actorManagement = actorManagement;
     }
 
     public void handleKeyPressed(KeyEvent e) {
@@ -43,6 +42,6 @@ public class UserControls {
     public void fireProjectile() {
         ActiveActorDestructible projectile = user.fireProjectile(); // returns object position
         root.getChildren().add(projectile);
-        userProjectiles.add(projectile);
+        actorManagement.addUserProjectiles(projectile);
     }
 }
