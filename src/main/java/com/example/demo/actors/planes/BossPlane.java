@@ -29,8 +29,8 @@ public class BossPlane extends Plane {
 	public BossPlane() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
 		framesWithShieldActivated = 0;
-		isShielded = false;
-		shieldImage = new ShieldImage(1100, 50);
+		this.isShielded = false;
+		shieldImage = new ShieldImage(1200, 15);
 		this.bossMovementPattern = new BossMovementPattern(MAX_FRAMES_WITH_SAME_MOVE, VERTICAL_VELOCITY, MOVE_FREQUENCY_PER_CYCLE);
 
 	}
