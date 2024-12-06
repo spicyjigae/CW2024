@@ -60,8 +60,8 @@ public class UserPlane extends Plane {
 		return numberOfKills;
 	}
 
-	public void incrementKillCount() {
-		this.numberOfKills++;
+	public void incrementKillCount(int killsInLastFrame) {
+		this.numberOfKills += killsInLastFrame;
 	}
 
 }

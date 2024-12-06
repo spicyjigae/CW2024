@@ -133,8 +133,9 @@ public abstract class LevelParent {
 	}
 
 	private void updateKillCount() {
-		for (int i = 0; i < currentNumberOfEnemies - actorManagement.getNumberOfEnemies(); i++) {
-			user.incrementKillCount();
+		int enemiesDestroyed = currentNumberOfEnemies - actorManagement.getNumberOfEnemies();
+		if (enemiesDestroyed > 0) {
+			user.incrementKillCount(enemiesDestroyed);
 		}
 	}
 
