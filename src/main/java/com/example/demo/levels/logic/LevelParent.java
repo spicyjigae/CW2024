@@ -6,43 +6,40 @@ import com.example.demo.interfaces.LevelChangeListener;
 import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.actors.logic.UserControls;
 import com.example.demo.levels.LevelView;
-import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
-import javafx.util.Duration;
 
 public abstract class LevelParent {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
-	private static final int MILLISECOND_DELAY = 50;
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
 
 	private final Group root;
-	private final Timeline timeline;
 	private final UserPlane user;
 	private final Scene scene;
 	private final ImageView background;
 	private final UserControls userControls;
 	protected final ActorManagement actorManagement;
 	private final CollisionHandling collisionHandling;
+	protected final TimelineManagement timelineManagement;
 
 	private final List<LevelChangeListener> listeners = new ArrayList<>();
 
 	private int currentNumberOfEnemies;
-	private LevelView levelView;
+	private final LevelView levelView;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
-		this.timeline = new Timeline();
 		this.user = new UserPlane(playerInitialHealth);
 		this.actorManagement = new ActorManagement(root);
 		this.userControls = new UserControls(user, root, actorManagement);
 		this.collisionHandling = new CollisionHandling(actorManagement, user);
+		this.timelineManagement = new TimelineManagement(this);
 
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -50,7 +47,6 @@ public abstract class LevelParent {
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
-		initializeTimeline();
 	}
 
 	public void addListener(LevelChangeListener listener) {
@@ -85,12 +81,7 @@ public abstract class LevelParent {
 		return scene;
 	}
 
-	public void startGame() {
-		background.requestFocus();
-		timeline.play();
-	}
-
-	private void updateScene() {
+	public void updateScene() {
 		spawnEnemyUnits();
 		actorManagement.updateActors();
 		actorManagement.generateEnemyFire();
@@ -105,12 +96,6 @@ public abstract class LevelParent {
 		checkIfGameOver();
 	}
 
-	private void initializeTimeline() {
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
-		timeline.getKeyFrames().add(gameLoop);
-	}
-
 	private void initializeBackground() {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
@@ -118,6 +103,10 @@ public abstract class LevelParent {
 		background.setOnKeyPressed(e -> handleKeyPressed(e));
 		background.setOnKeyReleased(e -> handleKeyReleased(e));
 		root.getChildren().add(background);
+	}
+
+	public ImageView getBackground() {
+		return background;
 	}
 
 	private void handleKeyPressed(KeyEvent e)  {
@@ -139,18 +128,26 @@ public abstract class LevelParent {
 		}
 	}
 
+	public void startGame() {
+		timelineManagement.start();
+	}
+
 	protected void winGame() {
-		timeline.stop();
+		timelineManagement.stopGame();
 		levelView.showWinImage();
 	}
 
 	protected void loseGame() {
-		timeline.stop();
+		timelineManagement.stopGame();
 		levelView.showGameOverImage();
 	}
 
 	protected UserPlane getUser() {
 		return user;
+	}
+
+	protected boolean userIsDestroyed() {
+		return user.isDestroyed();
 	}
 
 	protected Group getRoot() {
@@ -163,10 +160,6 @@ public abstract class LevelParent {
 
 	protected double getScreenWidth() {
 		return screenWidth;
-	}
-
-	protected boolean userIsDestroyed() {
-		return user.isDestroyed();
 	}
 
 	private void updateNumberOfEnemies() {
