@@ -23,9 +23,9 @@ public abstract class LevelParent {
 	private final Scene scene;
 	private final ImageView background;
 	private final UserControls userControls;
-	protected final ActorManagement actorManagement;
-	private final CollisionHandling collisionHandling;
-	protected final TimelineManagement timelineManagement;
+	protected final ActorManager actorManager;
+	private final CollisionHandler collisionHandler;
+	protected final TimelineManager timelineManager;
 
 	private final List<LevelChangeListener> listeners = new ArrayList<>();
 
@@ -36,10 +36,10 @@ public abstract class LevelParent {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.user = new UserPlane(playerInitialHealth);
-		this.actorManagement = new ActorManagement(root);
-		this.userControls = new UserControls(user, root, actorManagement);
-		this.collisionHandling = new CollisionHandling(actorManagement, user);
-		this.timelineManagement = new TimelineManagement(this);
+		this.actorManager = new ActorManager(root);
+		this.userControls = new UserControls(user, root, actorManager);
+		this.collisionHandler = new CollisionHandler(actorManager, user);
+		this.timelineManager = new TimelineManager(this);
 
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -76,21 +76,21 @@ public abstract class LevelParent {
 
 	public Scene initializeScene() {
 		initializeBackground();
-		actorManagement.addFriendlyUnits(user);
+		actorManager.addFriendlyUnits(user);
 		levelView.showHeartDisplay();
 		return scene;
 	}
 
 	public void updateScene() {
 		spawnEnemyUnits();
-		actorManagement.updateActors();
-		actorManagement.generateEnemyFire();
+		actorManager.updateActors();
+		actorManager.generateEnemyFire();
 		updateNumberOfEnemies();
-		collisionHandling.handleEnemyPenetration(screenWidth);
-		collisionHandling.handleUserProjectileCollisions();
-		collisionHandling.handleEnemyProjectileCollisions();
-		collisionHandling.handlePlaneCollisions();
-		actorManagement.removeAllDestroyedActors();
+		collisionHandler.handleEnemyPenetration(screenWidth);
+		collisionHandler.handleUserProjectileCollisions();
+		collisionHandler.handleEnemyProjectileCollisions();
+		collisionHandler.handlePlaneCollisions();
+		actorManager.removeAllDestroyedActors();
 		updateKillCount();
 		updateLevelView();
 		checkIfGameOver();
@@ -122,23 +122,23 @@ public abstract class LevelParent {
 	}
 
 	private void updateKillCount() {
-		int enemiesDestroyed = currentNumberOfEnemies - actorManagement.getNumberOfEnemies();
+		int enemiesDestroyed = currentNumberOfEnemies - actorManager.getNumberOfEnemies();
 		if (enemiesDestroyed > 0) {
 			user.incrementKillCount(enemiesDestroyed);
 		}
 	}
 
 	public void startGame() {
-		timelineManagement.start();
+		timelineManager.start();
 	}
 
 	protected void winGame() {
-		timelineManagement.stopGame();
+		timelineManager.stopGame();
 		levelView.showWinImage();
 	}
 
 	protected void loseGame() {
-		timelineManagement.stopGame();
+		timelineManager.stopGame();
 		levelView.showGameOverImage();
 	}
 
@@ -163,7 +163,7 @@ public abstract class LevelParent {
 	}
 
 	private void updateNumberOfEnemies() {
-		currentNumberOfEnemies = actorManagement.getNumberOfEnemies();
+		currentNumberOfEnemies = actorManager.getNumberOfEnemies();
 	}
 
 }

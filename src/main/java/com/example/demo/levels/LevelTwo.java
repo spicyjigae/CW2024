@@ -27,8 +27,8 @@ public class LevelTwo extends LevelParent {
 
 	@Override
 	protected void spawnEnemyUnits() {
-		if (actorManagement.getNumberOfEnemies() == 0) {
-			actorManagement.addEnemyUnits(boss);
+		if (actorManager.getNumberOfEnemies() == 0) {
+			actorManager.addEnemyUnits(boss);
 			getRoot().getChildren().add(boss.getShieldImage());
 		}
 	}

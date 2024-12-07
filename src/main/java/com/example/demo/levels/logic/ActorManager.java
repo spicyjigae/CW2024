@@ -7,7 +7,7 @@ import com.example.demo.actors.planes.Plane;
 import com.example.demo.actors.templates.ActiveActorDestructible;
 import javafx.scene.Group;
 
-public class ActorManagement {
+public class ActorManager {
 
     private final Group root;
 
@@ -16,7 +16,7 @@ public class ActorManagement {
     private final List<ActiveActorDestructible> userProjectiles;
     private final List<ActiveActorDestructible> enemyProjectiles;
 
-    public ActorManagement(Group root) {
+    public ActorManager(Group root) {
         this.root = root;
         this.friendlyUnits = new ArrayList<>();
         this.enemyUnits = new ArrayList<>();

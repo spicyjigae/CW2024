@@ -1,7 +1,7 @@
 package com.example.demo.actors.logic;
 
 import com.example.demo.actors.templates.ActiveActorDestructible;
-import com.example.demo.levels.logic.ActorManagement;
+import com.example.demo.levels.logic.ActorManager;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Group;
@@ -11,9 +11,9 @@ public class UserControls {
 
     private final UserPlane user;
     private final Group root;
-    private final ActorManagement actorManagement;
+    private final ActorManager actorManagement;
 
-    public UserControls(UserPlane user, Group root, ActorManagement actorManagement) {
+    public UserControls(UserPlane user, Group root, ActorManager actorManagement) {
         this.user = user;
         this.root = root;
         this.actorManagement = actorManagement;

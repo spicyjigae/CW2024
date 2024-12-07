@@ -5,11 +5,11 @@ import com.example.demo.actors.templates.ActiveActorDestructible;
 
 import java.util.List;
 
-public class CollisionHandling {
-    private final ActorManagement actorManagement;
+public class CollisionHandler {
+    private final ActorManager actorManagement;
     private final UserPlane user;
 
-    public CollisionHandling(ActorManagement actorManagement, UserPlane user) {
+    public CollisionHandler(ActorManager actorManagement, UserPlane user) {
         this.actorManagement = actorManagement;
         this.user = user;
     }

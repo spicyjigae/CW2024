@@ -29,12 +29,12 @@ public class LevelOne extends LevelParent {
 
 	@Override
 	protected void spawnEnemyUnits() {
-		int currentNumberOfEnemies = actorManagement.getNumberOfEnemies();
+		int currentNumberOfEnemies = actorManager.getNumberOfEnemies();
 		for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
 				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
 				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
-				actorManagement.addEnemyUnits(newEnemy);
+				actorManager.addEnemyUnits(newEnemy);
 			}
 		}
 	}
