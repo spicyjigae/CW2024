@@ -15,12 +15,12 @@ public class BossPlane extends Plane {
 	private static final double BOSS_SHIELD_PROBABILITY = 0.01;
 	private static final int IMAGE_HEIGHT = 150;
 	private static final int VERTICAL_VELOCITY = 8;
-	private static final int HEALTH = 10; // easier testing
+	private static final int HEALTH = 1; // easier testing
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
 	private static final int Y_POSITION_UPPER_BOUND = 0;
 	private static final int Y_POSITION_LOWER_BOUND = 600;
-	private static final int MAX_FRAMES_WITH_SHIELD = 500;
+	private static final int MAX_FRAMES_WITH_SHIELD = 100; // easier testing
 	private static ShieldImage shieldImage;
 	private final BossMovementPattern bossMovementPattern;
 	private boolean isShielded;

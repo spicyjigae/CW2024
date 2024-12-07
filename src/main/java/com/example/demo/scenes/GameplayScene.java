@@ -38,6 +38,6 @@ public class GameplayScene implements SceneState {
     @Override
     public void exitScene() {
         currentLevel.stopLevel();
-
+        this.scene = null;
     }
 }

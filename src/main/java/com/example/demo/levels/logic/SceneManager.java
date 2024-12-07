@@ -3,16 +3,25 @@ package com.example.demo.levels.logic;
 import com.example.demo.interfaces.EventChangeListener;
 import com.example.demo.interfaces.SceneState;
 import com.example.demo.scenes.GameplayScene;
+import com.example.demo.scenes.GameOverScene;
+import com.example.demo.scenes.SceneType;
+import com.example.demo.scenes.WinGameScene;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Constructor;
+import java.util.Map;
+import java.util.EnumMap;
 
 public class SceneManager implements EventChangeListener {
     private SceneState currentScene;
     private final Stage stage;
+    private final Map<SceneType, SceneState> sceneCache = new EnumMap<>(SceneType.class);
 
     public SceneManager(Stage stage) {
         this.stage = stage;
+
+        sceneCache.put(SceneType.WIN_GAME, new WinGameScene(this));
+        sceneCache.put(SceneType.GAME_OVER, new GameOverScene(this));
     }
 
     public void setState(SceneState newScene) {
@@ -28,17 +37,32 @@ public class SceneManager implements EventChangeListener {
         return stage;
     }
 
-    public void onEventChange(String nextLevel) {
+    @Override
+    public void onEventChange(String event) {
+        if (event.startsWith("com")) {
+            loadLevel(event);
+        } else {
+            SceneType sceneType = SceneType.valueOf(event.toUpperCase());
+            SceneState staticScene = sceneCache.get(sceneType);
+            if (staticScene != null) {
+                setState(staticScene);
+            } else {
+                throw new IllegalArgumentException("Unknown static scene type: " + sceneType);
+            }
+        }
+    }
+
+    private void loadLevel(String levelClassName) {
         try {
-            Class<?> myClass = Class.forName(nextLevel);
-            Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
+            Class<?> levelClass = Class.forName(levelClassName);
+            Constructor<?> constructor = levelClass.getConstructor(double.class, double.class);
             LevelParent newLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
 
             GameplayScene gameplayScene = new GameplayScene(this, newLevel);
-
             setState(gameplayScene);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Failed to load level: " + levelClassName, e);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.example.demo.interfaces.EventChangeListener;
 import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.actors.logic.UserControls;
 import com.example.demo.levels.LevelView;
+import com.example.demo.scenes.SceneType;
 import javafx.scene.Group;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
@@ -55,9 +56,9 @@ public abstract class LevelParent {
 		listeners.remove(listener);
 	}
 
-	private void notifyListeners(String newLevel) {
+	private void notifyListeners(String event) {
 		for (EventChangeListener listener : listeners) {
-			listener.onEventChange(newLevel);
+			listener.onEventChange(event);
 		}
 	}
 
@@ -133,12 +134,12 @@ public abstract class LevelParent {
 
 	protected void winGame() {
 		timelineManager.stopGame();
-		levelView.showWinImage();
+		notifyListeners(String.valueOf(SceneType.WIN_GAME));
 	}
 
 	protected void loseGame() {
 		timelineManager.stopGame();
-		levelView.showGameOverImage();
+		notifyListeners(String.valueOf(SceneType.GAME_OVER));
 	}
 
 	protected UserPlane getUser() {
