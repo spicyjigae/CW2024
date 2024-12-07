@@ -6,23 +6,23 @@ import javafx.util.Duration;
 
 public class TimelineManager {
     private final Timeline timeline;
-    private final LevelParent levelParent;
+    private final LevelParent level;
     private static final int MILLISECOND_DELAY = 50;
 
-    public TimelineManager(LevelParent levelParent) {
-        this.levelParent = levelParent;
+    public TimelineManager(LevelParent level) {
+        this.level = level;
         this.timeline = new Timeline();
         initializeTimeline();
     }
 
     private void initializeTimeline() {
         timeline.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> levelParent.updateScene());
+        KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> level.updateScene());
         timeline.getKeyFrames().add(gameLoop);
     }
 
     public void start() {
-        levelParent.getBackground().requestFocus();
+        level.getBackground().requestFocus();
         timeline.play();
     }
 

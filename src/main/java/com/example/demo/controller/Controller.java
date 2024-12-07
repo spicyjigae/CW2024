@@ -1,56 +1,28 @@
 package com.example.demo.controller;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import com.example.demo.levels.LevelOne;
+import com.example.demo.levels.logic.SceneManager;
+import com.example.demo.scenes.GameplayScene;
 import javafx.stage.Stage;
 import com.example.demo.levels.logic.LevelParent;
-import com.example.demo.interfaces.LevelChangeListener;
 
-public class Controller implements LevelChangeListener {
+public class Controller {
 
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.levels.LevelOne";
-	private final Stage stage;
+	private final SceneManager sceneManager;
 
 	public Controller(Stage stage) {
-		this.stage = stage;
+		this.sceneManager = new SceneManager(stage);
 	}
 
 	public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+		LevelParent levelOne = new LevelOne(sceneManager.getStage().getHeight(), sceneManager.getStage().getWidth());
 
-			stage.show();
-			goToLevel(LEVEL_ONE_CLASS_NAME);
+		GameplayScene gameplayScene = new GameplayScene(sceneManager, levelOne);
+		sceneManager.setState(gameplayScene);
+
+		sceneManager.getStage().show();
 	}
-
-	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
-			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
-
-			myLevel.addListener(this);
-
-			Scene scene = myLevel.initializeScene();
-			stage.setScene(scene);
-			myLevel.startGame();
-
-	}
-
-	@Override
-	public void onLevelChange(String nextLevel) {
-		try {
-			goToLevel(nextLevel);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText(e.getClass().toString());
-			alert.show();
-		}
-	}
-
 }

@@ -2,12 +2,11 @@ package com.example.demo.levels.logic;
 
 import java.util.*;
 
-import com.example.demo.interfaces.LevelChangeListener;
+import com.example.demo.interfaces.EventChangeListener;
 import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.actors.logic.UserControls;
 import com.example.demo.levels.LevelView;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 
@@ -17,24 +16,21 @@ public abstract class LevelParent {
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
+	private int currentNumberOfEnemies;
 
 	private final Group root;
 	private final UserPlane user;
-	private final Scene scene;
 	private final ImageView background;
 	private final UserControls userControls;
 	protected final ActorManager actorManager;
 	private final CollisionHandler collisionHandler;
 	protected final TimelineManager timelineManager;
-
-	private final List<LevelChangeListener> listeners = new ArrayList<>();
-
-	private int currentNumberOfEnemies;
 	private final LevelView levelView;
+
+	private final List<EventChangeListener> listeners = new ArrayList<>();
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
-		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.user = new UserPlane(playerInitialHealth);
 		this.actorManager = new ActorManager(root);
 		this.userControls = new UserControls(user, root, actorManager);
@@ -47,19 +43,21 @@ public abstract class LevelParent {
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
+
+		initializeBackground();
 	}
 
-	public void addListener(LevelChangeListener listener) {
+	public void addListener(EventChangeListener listener) {
 		listeners.add(listener);
 	}
 
-	public void removeListener(LevelChangeListener levelChangeListener) {
-		listeners.remove(levelChangeListener);
+	public void removeListener(EventChangeListener listener) {
+		listeners.remove(listener);
 	}
 
 	private void notifyListeners(String newLevel) {
-		for (LevelChangeListener listener : listeners) {
-			listener.onLevelChange(newLevel);
+		for (EventChangeListener listener : listeners) {
+			listener.onEventChange(newLevel);
 		}
 	}
 
@@ -74,11 +72,16 @@ public abstract class LevelParent {
 
 	protected abstract LevelView instantiateLevelView();
 
-	public Scene initializeScene() {
-		initializeBackground();
+	public void initializeLevel() {
 		actorManager.addFriendlyUnits(user);
 		levelView.showHeartDisplay();
-		return scene;
+		timelineManager.start();
+	}
+
+	public void stopLevel() {
+		timelineManager.stopGame();
+		root.getChildren().clear();
+		background.setImage(null);
 	}
 
 	public void updateScene() {
@@ -128,10 +131,6 @@ public abstract class LevelParent {
 		}
 	}
 
-	public void startGame() {
-		timelineManager.start();
-	}
-
 	protected void winGame() {
 		timelineManager.stopGame();
 		levelView.showWinImage();
@@ -150,7 +149,7 @@ public abstract class LevelParent {
 		return user.isDestroyed();
 	}
 
-	protected Group getRoot() {
+	public Group getRoot() {
 		return root;
 	}
 
