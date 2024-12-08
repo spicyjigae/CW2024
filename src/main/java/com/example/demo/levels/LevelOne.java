@@ -39,11 +39,6 @@ public class LevelOne extends LevelParent {
 		}
 	}
 
-	@Override
-	protected LevelView instantiateLevelView() {
-		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
-	}
-
 	private boolean userHasReachedKillTarget() {
 		return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
 	}

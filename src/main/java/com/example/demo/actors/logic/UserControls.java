@@ -39,7 +39,7 @@ public class UserControls {
         }
     }
 
-    public void fireProjectile() {
+    private void fireProjectile() {
         ActiveActorDestructible projectile = user.fireProjectile(); // returns object position
         root.getChildren().add(projectile);
         actorManagement.addUserProjectiles(projectile);

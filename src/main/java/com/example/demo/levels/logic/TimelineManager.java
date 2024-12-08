@@ -5,9 +5,11 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class TimelineManager {
+
+    private static final int MILLISECOND_DELAY = 50;
+
     private final Timeline timeline;
     private final LevelParent level;
-    private static final int MILLISECOND_DELAY = 50;
 
     public TimelineManager(LevelParent level) {
         this.level = level;

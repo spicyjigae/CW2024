@@ -14,6 +14,7 @@ public class UserPlane extends Plane {
 	private static final int VERTICAL_VELOCITY = 8;
 	private static final int PROJECTILE_X_POSITION_OFFSET = 150;
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 15;
+
 	private int velocityMultiplier;
 	private int numberOfKills;
 
@@ -23,7 +24,7 @@ public class UserPlane extends Plane {
 	}
 	
 	@Override
-	public void updatePosition() {
+	protected void updatePosition() {
 		if (isMoving()) {
 			double initialTranslateY = getTranslateY();
 			this.moveVertically(VERTICAL_VELOCITY * velocityMultiplier);

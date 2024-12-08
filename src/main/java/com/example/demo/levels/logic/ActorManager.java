@@ -1,16 +1,15 @@
 package com.example.demo.levels.logic;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.example.demo.actors.planes.Plane;
+import com.example.demo.actors.templates.ActiveActor;
 import com.example.demo.actors.templates.ActiveActorDestructible;
 import javafx.scene.Group;
 
 public class ActorManager {
 
     private final Group root;
-
     private final List<ActiveActorDestructible> friendlyUnits;
     private final List<ActiveActorDestructible> enemyUnits;
     private final List<ActiveActorDestructible> userProjectiles;
@@ -55,15 +54,15 @@ public class ActorManager {
     }
 
     public void updateActors() {
-        friendlyUnits.forEach(plane -> plane.updateActor());
-        enemyUnits.forEach(enemy -> enemy.updateActor()); //
-        userProjectiles.forEach(projectile -> projectile.updateActor());
-        enemyProjectiles.forEach(projectile -> projectile.updateActor()); //
+        friendlyUnits.forEach(ActiveActor::updateActor);
+        enemyUnits.forEach(ActiveActor::updateActor); //
+        userProjectiles.forEach(ActiveActor::updateActor);
+        enemyProjectiles.forEach(ActiveActor::updateActor); //
     }
 
     public void removeDestroyedActors(List<ActiveActorDestructible> actors) {
-        List<ActiveActorDestructible> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
-                .collect(Collectors.toList());
+        List<ActiveActorDestructible> destroyedActors = actors.stream().filter(ActiveActorDestructible::isDestroyed)
+                .toList();
         root.getChildren().removeAll(destroyedActors);
         actors.removeAll(destroyedActors);
     }

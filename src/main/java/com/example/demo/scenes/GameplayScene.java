@@ -6,7 +6,9 @@ import com.example.demo.levels.logic.SceneManager;
 import javafx.scene.Scene;
 
 public class GameplayScene implements SceneState {
+
     private final SceneManager sceneManager;
+
     private LevelParent currentLevel;
     private Scene scene;
 

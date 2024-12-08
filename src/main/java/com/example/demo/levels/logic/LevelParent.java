@@ -14,11 +14,10 @@ import javafx.scene.input.*;
 public abstract class LevelParent {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
-	private int currentNumberOfEnemies;
-
 	private final Group root;
 	private final UserPlane user;
 	private final ImageView background;
@@ -27,8 +26,10 @@ public abstract class LevelParent {
 	private final CollisionHandler collisionHandler;
 	protected final TimelineManager timelineManager;
 	private final LevelView levelView;
+	private final List<EventChangeListener> listeners;
+	private final int playerInitialHealth;
 
-	private final List<EventChangeListener> listeners = new ArrayList<>();
+	private int currentNumberOfEnemies;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -37,14 +38,14 @@ public abstract class LevelParent {
 		this.userControls = new UserControls(user, root, actorManager);
 		this.collisionHandler = new CollisionHandler(actorManager, user);
 		this.timelineManager = new TimelineManager(this);
-
-		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
+		this.listeners = new ArrayList<>();
+		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
-		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
-
+		this.playerInitialHealth = playerInitialHealth;
+		this.levelView = instantiateLevelView();
 		initializeBackground();
 	}
 
@@ -62,17 +63,6 @@ public abstract class LevelParent {
 		}
 	}
 
-	public void goToNextLevel(String LevelName) {
-		user.destroy();
-		notifyListeners(LevelName);
-	}
-
-	protected abstract void checkIfGameOver();
-
-	protected abstract void spawnEnemyUnits();
-
-	protected abstract LevelView instantiateLevelView();
-
 	public void initializeLevel() {
 		actorManager.addFriendlyUnits(user);
 		levelView.showHeartDisplay();
@@ -83,6 +73,27 @@ public abstract class LevelParent {
 		timelineManager.stopGame();
 		root.getChildren().clear();
 		background.setImage(null);
+		user.destroy();
+	}
+
+	protected void goToNextLevel(String LevelName) {
+		notifyListeners(LevelName);
+	}
+
+	protected void winGame() {
+		notifyListeners(String.valueOf(SceneType.WIN_GAME));
+	}
+
+	protected void loseGame() {
+		notifyListeners(String.valueOf(SceneType.GAME_OVER));
+	}
+
+	protected abstract void checkIfGameOver();
+
+	protected abstract void spawnEnemyUnits();
+
+	protected LevelView instantiateLevelView() {
+		return new LevelView(getRoot(), playerInitialHealth);
 	}
 
 	public void updateScene() {
@@ -104,13 +115,25 @@ public abstract class LevelParent {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
 		background.setFitWidth(screenWidth);
-		background.setOnKeyPressed(e -> handleKeyPressed(e));
-		background.setOnKeyReleased(e -> handleKeyReleased(e));
+		background.setOnKeyPressed(this::handleKeyPressed);
+		background.setOnKeyReleased(this::handleKeyReleased);
 		root.getChildren().add(background);
 	}
 
 	public ImageView getBackground() {
 		return background;
+	}
+
+	public Group getRoot() {
+		return root;
+	}
+
+	public UserPlane getUser() {
+		return user;
+	}
+
+	public double getScreenWidth() {
+		return screenWidth;
 	}
 
 	private void handleKeyPressed(KeyEvent e)  {
@@ -132,34 +155,12 @@ public abstract class LevelParent {
 		}
 	}
 
-	protected void winGame() {
-		timelineManager.stopGame();
-		notifyListeners(String.valueOf(SceneType.WIN_GAME));
-	}
-
-	protected void loseGame() {
-		timelineManager.stopGame();
-		notifyListeners(String.valueOf(SceneType.GAME_OVER));
-	}
-
-	protected UserPlane getUser() {
-		return user;
-	}
-
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
 	}
 
-	public Group getRoot() {
-		return root;
-	}
-
 	protected double getEnemyMaximumYPosition() {
 		return enemyMaximumYPosition;
-	}
-
-	protected double getScreenWidth() {
-		return screenWidth;
 	}
 
 	private void updateNumberOfEnemies() {

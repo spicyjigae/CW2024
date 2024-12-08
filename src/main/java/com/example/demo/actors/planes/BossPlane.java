@@ -21,8 +21,10 @@ public class BossPlane extends Plane {
 	private static final int Y_POSITION_UPPER_BOUND = 0;
 	private static final int Y_POSITION_LOWER_BOUND = 600;
 	private static final int MAX_FRAMES_WITH_SHIELD = 100; // easier testing
-	private static ShieldImage shieldImage;
+
+	private final ShieldImage shieldImage;
 	private final BossMovementPattern bossMovementPattern;
+
 	private boolean isShielded;
 	private int framesWithShieldActivated;
 
@@ -30,13 +32,12 @@ public class BossPlane extends Plane {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
 		framesWithShieldActivated = 0;
 		this.isShielded = false;
-		shieldImage = new ShieldImage(1200, 15);
+		this.shieldImage = new ShieldImage(1200, 15);
 		this.bossMovementPattern = new BossMovementPattern(MAX_FRAMES_WITH_SAME_MOVE, VERTICAL_VELOCITY, MOVE_FREQUENCY_PER_CYCLE);
-
 	}
 
 	@Override
-	public void updatePosition() {
+	protected void updatePosition() {
 		double initialTranslateY = getTranslateY();
 		moveVertically(bossMovementPattern.getNextMove());
 		double currentPosition = getLayoutY() + getTranslateY();

@@ -3,8 +3,10 @@ package com.example.demo.actors.logic;
 import java.util.*;
 
 public class BossMovementPattern {
+
     private final List<Integer> movePattern;
     private final int maxFramesWithSameMove;
+
     private int consecutiveMovesInSameDirection;
     private int indexOfCurrentMove;
 

@@ -6,6 +6,7 @@ import com.example.demo.actors.templates.ActiveActorDestructible;
 import java.util.List;
 
 public class CollisionHandler {
+
     private final ActorManager actorManagement;
     private final UserPlane user;
 
@@ -16,12 +17,10 @@ public class CollisionHandler {
 
     public void handlePlaneCollisions() {
         handleCollisions(actorManagement.getFriendlyUnits(), actorManagement.getEnemyUnits());
-
     }
 
     public void handleUserProjectileCollisions() {
         handleCollisions(actorManagement.getUserProjectiles(), actorManagement.getEnemyUnits());
-
     }
 
     public void handleEnemyProjectileCollisions() {

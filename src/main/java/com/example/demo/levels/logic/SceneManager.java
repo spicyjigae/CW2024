@@ -13,9 +13,11 @@ import java.util.Map;
 import java.util.EnumMap;
 
 public class SceneManager implements EventChangeListener {
-    private SceneState currentScene;
+
     private final Stage stage;
     private final Map<SceneType, SceneState> sceneCache = new EnumMap<>(SceneType.class);
+
+    private SceneState currentScene;
 
     public SceneManager(Stage stage) {
         this.stage = stage;

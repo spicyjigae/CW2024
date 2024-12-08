@@ -1,5 +1,7 @@
 package com.example.demo.actors.templates;
 
+import com.example.demo.interfaces.Destructible;
+
 public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
 
 	private boolean isDestroyed;

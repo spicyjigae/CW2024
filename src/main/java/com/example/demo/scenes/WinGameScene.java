@@ -6,11 +6,16 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+import java.util.Objects;
+
 public class WinGameScene implements SceneState {
-    private final SceneManager sceneManager;
-    private Scene scene;
+
     private static final String WIN_IMAGE = "/com/example/demo/images/win_game.png";
     private static final String BACKGROUND_IMAGE = "/com/example/demo/images/background2.jpg";
+
+    private final SceneManager sceneManager;
+
+    private Scene scene;
 
     public WinGameScene(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
@@ -20,11 +25,11 @@ public class WinGameScene implements SceneState {
     public void loadScene() {
         StackPane root = new StackPane();
 
-        ImageView backgroundImage = new ImageView(getClass().getResource(BACKGROUND_IMAGE).toExternalForm());
+        ImageView backgroundImage = new ImageView(Objects.requireNonNull(getClass().getResource(BACKGROUND_IMAGE)).toExternalForm());
         backgroundImage.setFitHeight(backgroundImage.getFitHeight());
         backgroundImage.setFitWidth(backgroundImage.getFitWidth());
 
-        ImageView winImage = new ImageView(getClass().getResource(WIN_IMAGE).toExternalForm());
+        ImageView winImage = new ImageView(Objects.requireNonNull(getClass().getResource(WIN_IMAGE)).toExternalForm());
 
         root.getChildren().addAll(backgroundImage, winImage);
 

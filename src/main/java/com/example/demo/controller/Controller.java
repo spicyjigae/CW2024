@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.example.demo.levels.LevelOne;
 import com.example.demo.levels.logic.SceneManager;
 import com.example.demo.scenes.GameplayScene;
@@ -16,8 +14,7 @@ public class Controller {
 		this.sceneManager = new SceneManager(stage);
 	}
 
-	public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+	public void launchGame() throws SecurityException, IllegalArgumentException {
 		LevelParent levelOne = new LevelOne(sceneManager.getStage().getHeight(), sceneManager.getStage().getWidth());
 
 		GameplayScene gameplayScene = new GameplayScene(sceneManager, levelOne);
