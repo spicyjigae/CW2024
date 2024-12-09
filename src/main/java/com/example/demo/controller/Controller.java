@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.levels.LevelOne;
 import com.example.demo.levels.logic.SceneManager;
-import com.example.demo.scenes.GameplayScene;
+import com.example.demo.scenes.MainMenuScene;
 import javafx.stage.Stage;
-import com.example.demo.levels.logic.LevelParent;
 
 public class Controller {
 
@@ -15,10 +13,9 @@ public class Controller {
 	}
 
 	public void launchGame() throws SecurityException, IllegalArgumentException {
-		LevelParent levelOne = new LevelOne(sceneManager.getStage().getHeight(), sceneManager.getStage().getWidth());
 
-		GameplayScene gameplayScene = new GameplayScene(sceneManager, levelOne);
-		sceneManager.setState(gameplayScene);
+		MainMenuScene mainMenuScene = new MainMenuScene(sceneManager);
+		sceneManager.setState(mainMenuScene);
 
 		sceneManager.getStage().show();
 	}

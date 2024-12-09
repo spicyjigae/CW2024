@@ -43,6 +43,6 @@ public class WinGameScene implements SceneState {
 
     @Override
     public Scene getScene() {
-        return scene;
+        return this.scene;
     }
 }

@@ -43,6 +43,6 @@ public class GameOverScene implements SceneState {
 
     @Override
     public Scene getScene() {
-        return scene;
+        return this.scene;
     }
 }
