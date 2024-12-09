@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class HeartDisplay {
 	
-	private static final String HEART_IMAGE_NAME = "/com/example/demo/images/user_heart.png";
+	private static final String HEART_IMAGE_NAME = "/com/example/demo/images/ui/user_heart.png";
 	private static final int HEART_HEIGHT = 50;
 	private static final int INDEX_OF_FIRST_ITEM = 0;
 

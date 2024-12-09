@@ -6,8 +6,8 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
 
 	private boolean isDestroyed;
 
-	public ActiveActorDestructible(String imageName, int imageHeight, double initialXPos, double initialYPos) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
+	public ActiveActorDestructible(String imageName, int imageHeight, double initialXPosition, double initialYPosition) {
+		super(imageName, imageHeight, initialXPosition, initialYPosition);
 		this.isDestroyed = false;
 	}
 

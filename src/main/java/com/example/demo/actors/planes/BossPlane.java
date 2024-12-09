@@ -7,7 +7,7 @@ import com.example.demo.ui.ShieldImage;
 
 public class BossPlane extends Plane {
 
-	private static final String IMAGE_NAME = "boss_plane.png";
+	private static final String IMAGE_NAME = "planes/boss_plane.png";
 	private static final double INITIAL_X_POSITION = 800.0;
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;

@@ -29,6 +29,7 @@ public abstract class LevelParent {
 	private final List<EventChangeListener> listeners;
 	private final int playerInitialHealth;
 
+	protected int killsToAdvance;
 	private int currentNumberOfEnemies;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
@@ -46,6 +47,7 @@ public abstract class LevelParent {
 		this.currentNumberOfEnemies = 0;
 		this.playerInitialHealth = playerInitialHealth;
 		this.levelView = instantiateLevelView();
+		this.killsToAdvance = 0;
 		initializeBackground();
 	}
 
@@ -167,4 +169,7 @@ public abstract class LevelParent {
 		currentNumberOfEnemies = actorManager.getNumberOfEnemies();
 	}
 
+	protected boolean userHasReachedKillTarget() {
+		return getUser().getNumberOfKills() >= killsToAdvance;
+	}
 }

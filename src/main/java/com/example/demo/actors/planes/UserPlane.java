@@ -5,7 +5,7 @@ import com.example.demo.actors.projectiles.UserProjectile;
 
 public class UserPlane extends Plane {
 
-	private static final String IMAGE_NAME = "user_plane.png";
+	private static final String IMAGE_NAME = "planes/user_plane.png";
 	private static final double Y_UPPER_BOUND = 0;
 	private static final double Y_LOWER_BOUND = 650;
 	private static final double INITIAL_X_POSITION = 5.0;

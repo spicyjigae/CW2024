@@ -6,8 +6,8 @@ public abstract class Plane extends ActiveActorDestructible {
 
 	private int health;
 
-	public Plane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
+	public Plane(String imageName, int imageHeight, double initialXPosition, double initialYPosition, int health) {
+		super(imageName, imageHeight, initialXPosition, initialYPosition);
 		this.health = health;
 	}
 
