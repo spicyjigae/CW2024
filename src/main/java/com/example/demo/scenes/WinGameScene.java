@@ -10,8 +10,8 @@ import java.util.Objects;
 
 public class WinGameScene implements SceneState {
 
-    private static final String WIN_IMAGE = "/com/example/demo/images/win_game.png";
-    private static final String BACKGROUND_IMAGE = "/com/example/demo/images/background2.jpg";
+    private static final String WIN_IMAGE = "/com/example/demo/images/scenes/win_game.png";
+    private static final String BACKGROUND_IMAGE = "/com/example/demo/images/background/background2.jpg";
 
     private final SceneManager sceneManager;
 
