@@ -28,17 +28,19 @@ public abstract class LevelParent {
 	private final LevelView levelView;
 	private final List<EventChangeListener> listeners;
 	private final int playerInitialHealth;
+	private final PauseMenuManager pauseMenuManager;
 
 	protected int killsToAdvance;
 	private int currentNumberOfEnemies;
+	private boolean pauseMenuAdded = false;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
 		this.user = new UserPlane(playerInitialHealth);
 		this.actorManager = new ActorManager(root);
-		this.userControls = new UserControls(user, root, actorManager);
 		this.collisionHandler = new CollisionHandler(actorManager, user);
 		this.timelineManager = new TimelineManager(this);
+		this.userControls = new UserControls(user, root, actorManager, this);
 		this.listeners = new ArrayList<>();
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -48,6 +50,7 @@ public abstract class LevelParent {
 		this.playerInitialHealth = playerInitialHealth;
 		this.levelView = instantiateLevelView();
 		this.killsToAdvance = 0;
+		this.pauseMenuManager = new PauseMenuManager(this.timelineManager);
 		initializeBackground();
 	}
 
@@ -68,7 +71,7 @@ public abstract class LevelParent {
 	public void initializeLevel() {
 		actorManager.addFriendlyUnits(user);
 		levelView.showHeartDisplay();
-		timelineManager.start();
+		timelineManager.startGame();
 	}
 
 	public void stopLevel() {
@@ -80,6 +83,14 @@ public abstract class LevelParent {
 
 	protected void goToNextLevel(String LevelName) {
 		notifyListeners(LevelName);
+	}
+
+	public void togglePause() {
+		if (!pauseMenuAdded) {
+			root.getChildren().add(pauseMenuManager.getPauseMenu());
+			pauseMenuAdded = true;
+		}
+		pauseMenuManager.togglePause();
 	}
 
 	protected void winGame() {

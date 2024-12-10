@@ -28,7 +28,7 @@ public class GameplayScene implements SceneState {
 
     @Override
     public void loadScene() {
-        this.scene = new Scene(currentLevel.getRoot(), sceneManager.getStage().getWidth(), sceneManager.getStage().getHeight());
+        this.scene = new Scene(currentLevel.getRoot(), SceneManager.getStage().getWidth(), SceneManager.getStage().getHeight());
         currentLevel.initializeLevel();
     }
 

@@ -15,15 +15,16 @@ import java.util.EnumMap;
 public class SceneManager implements EventChangeListener {
 
     private static SceneManager instance;
-    private final Stage stage;
+    private static Stage stage;
     private final Map<SceneType, SceneState> sceneCache = new EnumMap<>(SceneType.class);
 
     private SceneState currentScene;
+    private String currentLevelName;
 
     private SceneManager(Stage stage) {
-        this.stage = stage;
-        sceneCache.put(SceneType.WIN_GAME, new WinGameScene(this));
-        sceneCache.put(SceneType.GAME_OVER, new GameOverScene(this));
+        SceneManager.stage = stage;
+        sceneCache.put(SceneType.WIN_GAME, new WinGameScene());
+        sceneCache.put(SceneType.GAME_OVER, new GameOverScene());
     }
 
     public static SceneManager getInstance(Stage stage) {
@@ -46,7 +47,7 @@ public class SceneManager implements EventChangeListener {
         stage.setScene(currentScene.getScene());
     }
 
-    public Stage getStage() {
+    public static Stage getStage() {
         return stage;
     }
 
@@ -73,9 +74,14 @@ public class SceneManager implements EventChangeListener {
 
             GameplayScene gameplayScene = new GameplayScene(this, newLevel);
             setState(gameplayScene);
+            currentLevelName = levelClassName;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to load level: " + levelClassName, e);
         }
+    }
+
+    public String getCurrentLevelName() {
+        return currentLevelName;
     }
 }

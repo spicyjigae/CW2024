@@ -17,6 +17,6 @@ public class Controller {
 		MainMenuScene mainMenuScene = new MainMenuScene(sceneManager);
 		sceneManager.setState(mainMenuScene);
 
-		sceneManager.getStage().show();
+		SceneManager.getStage().show();
 	}
 }

@@ -13,12 +13,9 @@ public class WinGameScene implements SceneState {
     private static final String WIN_IMAGE = "/com/example/demo/images/scenes/win_game.png";
     private static final String BACKGROUND_IMAGE = "/com/example/demo/images/background/background2.jpg";
 
-    private final SceneManager sceneManager;
-
     private Scene scene;
 
-    public WinGameScene(SceneManager sceneManager) {
-        this.sceneManager = sceneManager;
+    public WinGameScene() {
     }
 
     @Override
@@ -33,7 +30,7 @@ public class WinGameScene implements SceneState {
 
         root.getChildren().addAll(backgroundImage, winImage);
 
-        this.scene = new Scene(root, sceneManager.getStage().getWidth(), sceneManager.getStage().getHeight());
+        this.scene = new Scene(root, SceneManager.getStage().getWidth(), SceneManager.getStage().getHeight());
     }
 
     @Override

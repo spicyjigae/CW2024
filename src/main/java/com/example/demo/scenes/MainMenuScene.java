@@ -28,11 +28,11 @@ public class MainMenuScene implements SceneState {
     @Override
     public void loadScene() {
         ImageView background = new ImageView(Objects.requireNonNull(getClass().getResource(BACKGROUND_IMAGE)).toExternalForm());
-        background.setFitWidth(sceneManager.getStage().getWidth());
-        background.setFitHeight(sceneManager.getStage().getHeight());
+        background.setFitWidth(SceneManager.getStage().getWidth());
+        background.setFitHeight(SceneManager.getStage().getHeight());
         background.setPreserveRatio(false);
 
-        Rectangle dimLayer = new Rectangle(sceneManager.getStage().getWidth(), sceneManager.getStage().getHeight());
+        Rectangle dimLayer = new Rectangle(SceneManager.getStage().getWidth(), SceneManager.getStage().getHeight());
         dimLayer.setFill(new Color(0,0,0,0.5));
 
         VBox root = new VBox(50);
@@ -54,7 +54,7 @@ public class MainMenuScene implements SceneState {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(background, dimLayer, root);
 
-        this.scene = new Scene(stackPane, sceneManager.getStage().getWidth(), sceneManager.getStage().getHeight());
+        this.scene = new Scene(stackPane, SceneManager.getStage().getWidth(), SceneManager.getStage().getHeight());
     }
 
     @Override

@@ -14,6 +14,7 @@ public class TimelineManager {
     public TimelineManager(LevelParent level) {
         this.level = level;
         this.timeline = new Timeline();
+
         initializeTimeline();
     }
 
@@ -23,13 +24,17 @@ public class TimelineManager {
         timeline.getKeyFrames().add(gameLoop);
     }
 
-    public void start() {
+    public void startGame() {
         level.getBackground().requestFocus();
         timeline.play();
     }
 
     public void stopGame() {
         timeline.stop();
+    }
+
+    public void pauseGame() {
+        timeline.pause();
     }
 
 }
