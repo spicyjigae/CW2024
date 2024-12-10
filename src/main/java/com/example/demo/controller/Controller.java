@@ -11,7 +11,7 @@ public class Controller {
 	private final SceneManager sceneManager;
 
 	public Controller(Stage stage) {
-		this.sceneManager = new SceneManager(stage);
+		this.sceneManager = SceneManager.getInstance(stage);
 	}
 
 	public void launchGame() throws SecurityException, IllegalArgumentException {

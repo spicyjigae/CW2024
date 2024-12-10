@@ -11,12 +11,12 @@ public class UserControls {
 
     private final UserPlane user;
     private final Group root;
-    private final ActorManager actorManagement;
+    private final ActorManager actorManager;
 
-    public UserControls(UserPlane user, Group root, ActorManager actorManagement) {
+    public UserControls(UserPlane user, Group root, ActorManager actorManager) {
         this.user = user;
         this.root = root;
-        this.actorManagement = actorManagement;
+        this.actorManager = actorManager;
     }
 
     public void handleKeyPressed(KeyEvent e) {
@@ -42,6 +42,6 @@ public class UserControls {
     private void fireProjectile() {
         ActiveActorDestructible projectile = user.fireProjectile(); // returns object position
         root.getChildren().add(projectile);
-        actorManagement.addUserProjectiles(projectile);
+        actorManager.addUserProjectiles(projectile);
     }
 }
