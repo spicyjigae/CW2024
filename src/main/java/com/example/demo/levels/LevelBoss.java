@@ -1,6 +1,7 @@
 package com.example.demo.levels;
 
 import com.example.demo.actors.planes.BossPlane;
+import com.example.demo.levels.logic.EnemyFactory;
 import com.example.demo.levels.logic.LevelParent;
 
 public class LevelBoss extends LevelParent {
@@ -12,7 +13,10 @@ public class LevelBoss extends LevelParent {
 
     public LevelBoss(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
-		boss = new BossPlane();
+
+		double bossXPosition = 800;
+		double bossInitialYPosition = Math.random() * getEnemyMaximumYPosition();
+		boss = (BossPlane) EnemyFactory.createEnemy("BOSS", bossXPosition, bossInitialYPosition);
 	}
 
 	@Override
