@@ -8,8 +8,6 @@ import com.example.demo.ui.ShieldImage;
 public class BossPlane extends Plane {
 
 	private static final String IMAGE_NAME = "planes/boss_plane.png";
-	private static final double INITIAL_X_POSITION = 800.0;
-	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
 	private static final double BOSS_FIRE_RATE = .04;
 	private static final double BOSS_SHIELD_PROBABILITY = 0.01;
@@ -28,8 +26,8 @@ public class BossPlane extends Plane {
 	private boolean isShielded;
 	private int framesWithShieldActivated;
 
-	public BossPlane() {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
+	public BossPlane(double initialXPosition, double initialYPosition) {
+		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPosition, initialYPosition, HEALTH);
 		framesWithShieldActivated = 0;
 		this.isShielded = false;
 		this.shieldImage = new ShieldImage(1200, 15);
