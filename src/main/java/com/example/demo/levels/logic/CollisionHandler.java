@@ -7,24 +7,24 @@ import java.util.List;
 
 public class CollisionHandler {
 
-    private final ActorManager actorManagement;
+    private final ActorManager actorManager;
     private final UserPlane user;
 
-    public CollisionHandler(ActorManager actorManagement, UserPlane user) {
-        this.actorManagement = actorManagement;
+    public CollisionHandler(ActorManager actorManager, UserPlane user) {
+        this.actorManager = actorManager;
         this.user = user;
     }
 
     public void handlePlaneCollisions() {
-        handleCollisions(actorManagement.getFriendlyUnits(), actorManagement.getEnemyUnits());
+        handleCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
     }
 
     public void handleUserProjectileCollisions() {
-        handleCollisions(actorManagement.getUserProjectiles(), actorManagement.getEnemyUnits());
+        handleCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
     }
 
     public void handleEnemyProjectileCollisions() {
-        handleCollisions(actorManagement.getEnemyProjectiles(), actorManagement.getFriendlyUnits());
+        handleCollisions(actorManager.getEnemyProjectiles(), actorManager.getFriendlyUnits());
     }
 
     private void handleCollisions(List<ActiveActorDestructible> actors1,
@@ -40,7 +40,7 @@ public class CollisionHandler {
     }
 
     public void handleEnemyPenetration(double screenWidth) {
-        for (ActiveActorDestructible enemy : actorManagement.getEnemyUnits()) {
+        for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
             if (enemyHasPenetratedDefenses(enemy, screenWidth)) {
                 user.takeDamage();
                 enemy.destroy();

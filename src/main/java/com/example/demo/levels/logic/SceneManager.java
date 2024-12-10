@@ -14,16 +14,27 @@ import java.util.EnumMap;
 
 public class SceneManager implements EventChangeListener {
 
+    private static SceneManager instance;
     private final Stage stage;
     private final Map<SceneType, SceneState> sceneCache = new EnumMap<>(SceneType.class);
 
     private SceneState currentScene;
 
-    public SceneManager(Stage stage) {
+    private SceneManager(Stage stage) {
         this.stage = stage;
-
         sceneCache.put(SceneType.WIN_GAME, new WinGameScene(this));
         sceneCache.put(SceneType.GAME_OVER, new GameOverScene(this));
+    }
+
+    public static SceneManager getInstance(Stage stage) {
+        if (instance == null) {
+            synchronized (SceneManager.class) {
+                if (instance == null) {
+                    instance = new SceneManager(stage);
+                }
+            }
+        }
+        return instance;
     }
 
     public void setState(SceneState newScene) {
