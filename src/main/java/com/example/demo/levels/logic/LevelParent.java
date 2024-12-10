@@ -7,9 +7,12 @@ import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.actors.logic.UserControls;
 import com.example.demo.levels.LevelView;
 import com.example.demo.scenes.SceneType;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.util.Duration;
 
 public abstract class LevelParent {
 
@@ -29,6 +32,7 @@ public abstract class LevelParent {
 	private final List<EventChangeListener> listeners;
 	private final int playerInitialHealth;
 	private final PauseMenuManager pauseMenuManager;
+	private final Timeline spawnTimeline;
 
 	protected int killsToAdvance;
 	private int currentNumberOfEnemies;
@@ -51,6 +55,8 @@ public abstract class LevelParent {
 		this.levelView = instantiateLevelView();
 		this.killsToAdvance = 0;
 		this.pauseMenuManager = new PauseMenuManager(this.timelineManager);
+		this.spawnTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> spawnEnemyUnits()));
+		this.spawnTimeline.setCycleCount(Timeline.INDEFINITE);
 		initializeBackground();
 	}
 
@@ -105,12 +111,20 @@ public abstract class LevelParent {
 
 	protected abstract void spawnEnemyUnits();
 
+	protected void startSpawning() {
+		spawnTimeline.play();
+	}
+
+	protected void stopSpawning() {
+		spawnTimeline.stop();
+	}
+
 	protected LevelView instantiateLevelView() {
 		return new LevelView(getRoot(), playerInitialHealth);
 	}
 
 	public void updateScene() {
-		spawnEnemyUnits();
+		startSpawning();
 		actorManager.updateActors();
 		actorManager.generateEnemyFire();
 		updateNumberOfEnemies();

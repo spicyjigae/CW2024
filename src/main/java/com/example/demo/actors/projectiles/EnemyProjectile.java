@@ -7,6 +7,5 @@ public class EnemyProjectile extends Projectile {
 
 	public EnemyProjectile(double initialXPos, double initialYPos) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos);
-		this.HORIZONTAL_VELOCITY = -10;
 	}
 }

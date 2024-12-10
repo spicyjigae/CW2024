@@ -6,7 +6,7 @@ import com.example.demo.levels.logic.LevelParent;
 
 public class LevelBoss extends LevelParent {
 
-	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background/background2.jpg";
+	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background/background3.jpg";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 
 	private final BossPlane boss;

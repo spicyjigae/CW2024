@@ -1,20 +1,19 @@
 package com.example.demo.actors.planes;
 
-import com.example.demo.actors.projectiles.ScoutProjectile;
+import com.example.demo.actors.projectiles.PhantomProjectile;
 import com.example.demo.actors.templates.ActiveActorDestructible;
 
-public class ScoutPlane extends EnemyPlane {
-    private static final String IMAGE_NAME = "planes/scout_plane.png";
+public class PhantomPlane extends EnemyPlane {
+    private static final String IMAGE_NAME = "planes/phantom_plane.png";
     private static final int IMAGE_HEIGHT = 75;
-    private static final int INITIAL_HEALTH = 3;
-    private static final double FIRE_RATE = .01;
+    private static final int INITIAL_HEALTH = 1;
+    private static final double FIRE_RATE = .03;
 
-    public ScoutPlane (double InitialXPosition, double InitialYPosition) {
+    public PhantomPlane (double InitialXPosition, double InitialYPosition) {
         super(IMAGE_NAME, IMAGE_HEIGHT, InitialXPosition, InitialYPosition, INITIAL_HEALTH);
-        this.HORIZONTAL_VELOCITY = -6;
+        this.HORIZONTAL_VELOCITY = -10;
     }
 
-    @Override
     protected double getFireRate() {
         return FIRE_RATE;
     }
@@ -24,7 +23,7 @@ public class ScoutPlane extends EnemyPlane {
         if (Math.random() < getFireRate()) {
             double projectileXPosition = getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
             double projectileYPosition = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
-            return new ScoutProjectile(projectileXPosition, projectileYPosition);
+            return new PhantomProjectile(projectileXPosition, projectileYPosition);
         }
         return null;
     }
