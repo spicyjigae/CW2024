@@ -3,6 +3,8 @@ import com.example.demo.interfaces.SceneState;
 import javafx.scene.image.ImageView;
 import com.example.demo.levels.logic.SceneManager;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
@@ -27,10 +29,10 @@ public class MainMenuScene implements SceneState {
 
     @Override
     public void loadScene() {
-        ImageView background = new ImageView(Objects.requireNonNull(getClass().getResource(BACKGROUND_IMAGE)).toExternalForm());
-        background.setFitWidth(SceneManager.getStage().getWidth());
-        background.setFitHeight(SceneManager.getStage().getHeight());
-        background.setPreserveRatio(false);
+        ImageView backgroundImage = new ImageView(Objects.requireNonNull(getClass().getResource(BACKGROUND_IMAGE)).toExternalForm());
+        backgroundImage.setFitWidth(SceneManager.getStage().getWidth());
+        backgroundImage.setFitHeight(SceneManager.getStage().getHeight());
+        backgroundImage.setPreserveRatio(false);
 
         Rectangle dimLayer = new Rectangle(SceneManager.getStage().getWidth(), SceneManager.getStage().getHeight());
         dimLayer.setFill(new Color(0,0,0,0.5));
@@ -52,9 +54,15 @@ public class MainMenuScene implements SceneState {
         root.getChildren().addAll(title, startButton, exitButton);
 
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(background, dimLayer, root);
+        stackPane.getChildren().addAll(backgroundImage, dimLayer, root);
 
         this.scene = new Scene(stackPane, SceneManager.getStage().getWidth(), SceneManager.getStage().getHeight());
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                event.consume();
+            }
+        });
     }
 
     @Override

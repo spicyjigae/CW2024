@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.levels.logic.SceneManager;
-import com.example.demo.scenes.MainMenuScene;
+import com.example.demo.scenes.SceneType;
 import javafx.stage.Stage;
 
 public class Controller {
@@ -14,8 +14,7 @@ public class Controller {
 
 	public void launchGame() throws SecurityException, IllegalArgumentException {
 
-		MainMenuScene mainMenuScene = new MainMenuScene(sceneManager);
-		sceneManager.setState(mainMenuScene);
+		sceneManager.onEventChange((String.valueOf(SceneType.MAIN_MENU)));
 
 		SceneManager.getStage().show();
 	}
