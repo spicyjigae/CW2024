@@ -5,7 +5,7 @@ import com.example.demo.actors.templates.ActiveActorDestructible;
 import com.example.demo.actors.projectiles.BossProjectile;
 import com.example.demo.ui.ShieldImage;
 
-public class BossPlane extends Plane {
+public class BossPlane extends EnemyPlane {
 
 	private static final String IMAGE_NAME = "planes/boss_plane.png";
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
@@ -48,6 +48,11 @@ public class BossPlane extends Plane {
 	public void updateActor() {
 		super.updateActor();
 		updateShield();
+	}
+
+	@Override
+	protected double getFireRate() {
+		return 0; // bossPlane doesn't actually need `getFireRate()`
 	}
 
 	@Override
