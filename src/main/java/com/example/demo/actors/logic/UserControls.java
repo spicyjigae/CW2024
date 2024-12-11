@@ -15,6 +15,8 @@ public class UserControls {
     private final ActorManager actorManager;
     private final LevelParent level;
 
+    private boolean paused;
+
     public UserControls(UserPlane user, Group root, ActorManager actorManager, LevelParent level) {
         this.user = user;
         this.root = root;
@@ -45,6 +47,7 @@ public class UserControls {
 
         if (kc == KeyCode.ESCAPE) {
             level.togglePause();
+            paused = !paused;
         }
     }
 
@@ -60,8 +63,10 @@ public class UserControls {
     }
 
     private void fireProjectile() {
-        ActiveActorDestructible projectile = user.fireProjectile(); // returns object position
-        root.getChildren().add(projectile);
-        actorManager.addUserProjectiles(projectile);
+        if (!paused) {
+            ActiveActorDestructible projectile = user.fireProjectile(); // returns object position
+            root.getChildren().add(projectile);
+            actorManager.addUserProjectiles(projectile);
+        }
     }
 }

@@ -2,10 +2,7 @@ package com.example.demo.levels.logic;
 
 import com.example.demo.interfaces.EventChangeListener;
 import com.example.demo.interfaces.SceneState;
-import com.example.demo.scenes.GameplayScene;
-import com.example.demo.scenes.GameOverScene;
-import com.example.demo.scenes.SceneType;
-import com.example.demo.scenes.WinGameScene;
+import com.example.demo.scenes.*;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Constructor;
@@ -23,8 +20,9 @@ public class SceneManager implements EventChangeListener {
 
     private SceneManager(Stage stage) {
         SceneManager.stage = stage;
-        sceneCache.put(SceneType.WIN_GAME, new WinGameScene());
-        sceneCache.put(SceneType.GAME_OVER, new GameOverScene());
+        sceneCache.put(SceneType.WIN_GAME, new WinGameScene(this));
+        sceneCache.put(SceneType.GAME_OVER, new GameOverScene(this));
+        sceneCache.put(SceneType.MAIN_MENU, new MainMenuScene(this));
     }
 
     public static SceneManager getInstance(Stage stage) {
@@ -44,6 +42,7 @@ public class SceneManager implements EventChangeListener {
         }
         currentScene = newScene;
         currentScene.loadScene();
+
         stage.setScene(currentScene.getScene());
     }
 
