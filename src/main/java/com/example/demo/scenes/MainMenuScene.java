@@ -15,18 +15,31 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import java.util.Objects;
 
+/**
+ * MainMenuScene handles the creation of the Main Menu scene.
+ */
 public class MainMenuScene implements SceneState {
 
     private static final String LEVEL_ONE = "com.example.demo.levels.LevelOne";
     private static final String BACKGROUND_IMAGE = "/com/example/demo/images/background/background3.jpg";
 
+    /**
+     * SceneManager object reference.
+     */
     private final SceneManager sceneManager;
+
+    /**
+     * JavaFX scene object for storing the scene.
+     */
     private Scene scene;
 
     public MainMenuScene(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 
+    /**
+     * Creates the Main Menu scene at stores it in {@code scene}.
+     */
     @Override
     public void loadScene() {
         ImageView backgroundImage = new ImageView(Objects.requireNonNull(getClass().getResource(BACKGROUND_IMAGE)).toExternalForm());
@@ -65,11 +78,18 @@ public class MainMenuScene implements SceneState {
         });
     }
 
+    /**
+     * Properly exits the scene before switching to another scene.
+     */
     @Override
     public void exitScene() {
         this.scene = null;
     }
 
+    /**
+     * Retrieves the current Main Menu scene.
+     * @return Main Menu scene.
+     */
     @Override
     public Scene getScene() {
         return this.scene;

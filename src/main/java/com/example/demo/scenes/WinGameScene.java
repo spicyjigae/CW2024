@@ -12,19 +12,31 @@ import javafx.scene.layout.VBox;
 
 import java.util.Objects;
 
+/**
+ * WinGameScene class that implements SceneState interface handles the creation of the Win Game scene.
+ */
 public class WinGameScene implements SceneState {
 
     private static final String WIN_IMAGE = "/com/example/demo/images/scenes/win_game.png";
     private static final String BACKGROUND_IMAGE = "/com/example/demo/images/background/background2.jpg";
 
+    /**
+     * SceneManager object reference.
+     */
     private final SceneManager sceneManager;
 
+    /**
+     * JavaFX scene object for storing the scene.
+     */
     private Scene scene;
 
     public WinGameScene(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 
+    /**
+     * Creates the Win Game scene and stores it in {@code scene}.
+     */
     @Override
     public void loadScene() {
 
@@ -59,11 +71,18 @@ public class WinGameScene implements SceneState {
         });
     }
 
+    /**
+     * Properly exits the scene before switching to another scene.
+     */
     @Override
     public void exitScene() {
         this.scene = null;
     }
 
+    /**
+     * Retrieves the current Win Game scene.
+     * @return Win Game scene.
+     */
     @Override
     public Scene getScene() {
         return scene;

@@ -13,19 +13,31 @@ import javafx.scene.layout.VBox;
 
 import java.util.Objects;
 
+/**
+ * GameOverScene class that implements SceneState interface handles the creation of the Game Over scene.
+ */
 public class GameOverScene implements SceneState {
 
     private static final String GAME_OVER_IMAGE = "/com/example/demo/images/scenes/game_over.png";
     private static final String BACKGROUND_IMAGE = "/com/example/demo/images/background/background2.jpg";
 
+    /**
+     * SceneManager object reference.
+     */
     private final SceneManager sceneManager;
 
+    /**
+     * JavaFX scene object for storing the scene.
+     */
     private Scene scene;
 
     public GameOverScene(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 
+    /**
+     * Creates the Game Over scene and stores it in {@code scene}.
+     */
     @Override
     public void loadScene() {
 
@@ -62,11 +74,18 @@ public class GameOverScene implements SceneState {
         });
     }
 
+    /**
+     * Properly exits the scene before switching to another scene.
+     */
     @Override
     public void exitScene() {
-    this.scene = null;
+        this.scene = null;
     }
 
+    /**
+     * Retrieves the current Game Over scene.
+     * @return Game Over scene.
+     */
     @Override
     public Scene getScene() {
         return scene;

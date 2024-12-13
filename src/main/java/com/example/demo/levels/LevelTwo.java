@@ -7,16 +7,33 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+/**
+ * LevelTwo class handles all initialization of the second level, Level Two.
+ */
 public class LevelTwo extends LevelParent {
 
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background/background2.jpg";
     private static final String NEXT_LEVEL = "com.example.demo.levels.LevelBoss";
+
+    /**
+     * Total enemies to be spawned for the entirety of the level.
+     */
     private static final int TOTAL_ENEMIES = 10;
+
+    /**
+     * Probability of the enemy to spawn in the current spawnTimeline frame.
+     */
     private static final double ENEMY_SPAWN_PROBABILITY = .70;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
+    /**
+     * spawnTimeline timeline object reference creates a delay in spawning enemies.
+     */
     private final Timeline spawnTimeline;
 
+    /**
+     * Keeps track of total enemies spawned so far.
+     */
     private int totalEnemiesSpawned;
 
     public LevelTwo(double screenHeight, double screenWidth) {
@@ -27,6 +44,9 @@ public class LevelTwo extends LevelParent {
         spawnTimeline.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /**
+     * Checks if the game is over by seeing if either user is destroyed or all enemies have been killed.
+     */
     @Override
     protected void checkIfGameOver() {
         if (userIsDestroyed()) {
@@ -38,6 +58,9 @@ public class LevelTwo extends LevelParent {
         }
     }
 
+    /**
+     * Adds enemy plane units to the scene.
+     */
     @Override
     protected void spawnEnemyUnits() {
         if (totalEnemiesSpawned < TOTAL_ENEMIES) {

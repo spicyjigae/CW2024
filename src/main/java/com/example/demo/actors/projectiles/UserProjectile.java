@@ -1,5 +1,8 @@
 package com.example.demo.actors.projectiles;
 
+/**
+ * UserProjectile handles initialization of user projectiles.
+ */
 public class UserProjectile extends Projectile {
 
 	private static final String IMAGE_NAME = "projectiles/user_bullet.png";

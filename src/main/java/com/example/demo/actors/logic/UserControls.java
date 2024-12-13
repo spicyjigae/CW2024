@@ -8,13 +8,34 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.Group;
 import com.example.demo.actors.planes.UserPlane;
 
+/**
+ * UserControls class is responsible for listening to and handling key inputs.
+ */
 public class UserControls {
 
+    /**
+     * UserPlane object reference.
+     */
     private final UserPlane user;
+
+    /**
+     * JavaFX Group object reference.
+     */
     private final Group root;
+
+    /**
+     * ActorManager object reference.
+     */
     private final ActorManager actorManager;
+
+    /**
+     * LevelParent object reference.
+     */
     private final LevelParent level;
 
+    /**
+     * Denotes if the game is currently paused or not.
+     */
     private boolean paused;
 
     public UserControls(UserPlane user, Group root, ActorManager actorManager, LevelParent level) {
@@ -24,6 +45,10 @@ public class UserControls {
         this.level = level;
     }
 
+    /**
+     * Handles key presses for movement, projectile firing and game pausing.
+     * @param e Event parameters.
+     */
     public void handleKeyPressed(KeyEvent e) {
         KeyCode kc = e.getCode();
         if (kc == KeyCode.W) {
@@ -51,6 +76,10 @@ public class UserControls {
         }
     }
 
+    /**
+     * Handles key releases to ensure user plane stops if keys are no longer pressed.
+     * @param e Event parameters.
+     */
     public void handleKeyReleased(KeyEvent e) {
         KeyCode kc = e.getCode();
         if (kc == KeyCode.W || kc == KeyCode.S) {
@@ -62,6 +91,9 @@ public class UserControls {
         }
     }
 
+    /**
+     * Fires user projectiles ONLY IF the game is not currently paused.
+     */
     private void fireProjectile() {
         if (!paused) {
             ActiveActorDestructible projectile = user.fireProjectile(); // returns object position

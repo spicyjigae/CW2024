@@ -1,5 +1,8 @@
 package com.example.demo.actors.projectiles;
 
+/**
+ * Subclasses of this class denotes an enemy projectile class.
+ */
 public class EnemyProjectile extends Projectile {
 	
 	private static final String IMAGE_NAME = "projectiles/enemy_bullet.png";
